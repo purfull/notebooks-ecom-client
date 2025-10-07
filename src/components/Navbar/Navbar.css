@@ -1,0 +1,29 @@
+.navbar-component {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #ef6e2eeb;
+  /* display: flex; */
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  grid-column-gap: 20px;
+  grid-row-gap: 0px;
+}
+.nav-right {
+  display: flex;
+  flex-direction: row;
+  /* padding-right: 10rem; */
+  justify-content: flex-end;
+}
+.nav-left {
+  display: flex;
+  justify-content: flex-start;
+}
