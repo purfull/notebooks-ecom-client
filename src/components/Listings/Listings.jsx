@@ -12,7 +12,7 @@ const Listings = () => {
   });
 
   return (
-    <div className="listings-component" style={{ padding: "20px" }}>
+    <div className="listings-component">
       <h2>Explore our Notebooks!</h2>
       <div className="products-grid">
         {products.map((product, index) => (
@@ -21,6 +21,7 @@ const Listings = () => {
             <h3>{product.name}</h3>
             <span>{product.quantity}</span>
             <p>{product.price}</p>
+            <Button className="add-cart-button">Add to Cart</Button>
           </Card>
         ))}
       </div>
