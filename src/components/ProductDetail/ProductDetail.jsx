@@ -1,29 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductDetail.scss";
 import Navbar from "../Navbar/Navbar";
 import Note from "../../assets/images/note.jpg";
-import { Button } from "antd";
+import { products } from "../../data/productData";
+import { Button, Rate } from "antd";
+import { useParams } from "react-router-dom";
 const ProductDetail = () => {
+  const [productData, setProductData] = useState(null);
+  let { id } = useParams();
+  useEffect(() => {
+    const productData = products.find((el) => el.id == id);
+    setProductData(productData);
+  }, []);
+
   return (
     <div className="productdetail-component">
       <Navbar />
       <div className="product-detail-page">
         <div className="detail-left">
           <img
-            src={Note} // src={product.image} // alt={product.name}
+            src={productData?.image} // src={product.image} // alt={product.name}
             className="detail-image"
           />
         </div>
         <div className="detail-right">
-          <h1>Cursive Notebook </h1>
-          <p className="description">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using Lorem Ipsum is that it has a more-or-less normal
-            distribution of letters, as opposed to using 'Content here, content
-            here', making it look like readable English.
-          </p>
-          <p className="price">$100</p>
+          <h1>{productData?.title} </h1>
+          <div className="rating">
+            <Rate allowHalf disabled defaultValue={productData?.rating} />
+            <span className="rating-text">{productData?.rating}</span>
+          </div>
+          <p className="description">{productData?.description}</p>
+
+          <div className="price-section">
+            <span className="current-price">₹{productData?.price}</span>
+            <span className="original-price">
+              ₹{productData?.originalPrice}
+            </span>
+            <span className="discount">{productData?.discount}</span>
+          </div>
           <div className="purchase-butons">
             <Button className="buynow">Buy Now</Button>
             <Button className="addcart">Add to Cart</Button>

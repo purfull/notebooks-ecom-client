@@ -28,7 +28,51 @@
     }
 
     .detail-right {
-      background-color: lightgray;
+      // background-color: lightgray;
+
+      
+    .rating {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 6px;
+      margin-bottom: 8px;
+
+      .ant-rate {
+        font-size: 16px;
+      }
+
+      .rating-text {
+        color: #555;
+        font-size: 14px;
+      }
+    }
+      
+    .price-section {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 8px;
+      margin-bottom: 12px;
+
+      .current-price {
+        font-size: 18px;
+        font-weight: 600;
+        color: #6200ed;
+      }
+
+      .original-price {
+        font-size: 15px;
+        // color: #999;
+        text-decoration: line-through;
+      }
+
+      .discount {
+        font-size: 14px;
+        color: #28a745; // green color for discount
+        font-weight: 500;
+      }
+    }
     }
     .description{
       font-size: 16px;
