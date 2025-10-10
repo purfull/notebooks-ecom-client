@@ -32,7 +32,7 @@ const NavBar = () => {
           <div className="logo-container">
             <img
               src="" // replace with your profile image path
-              alt="logo"
+              alt=""
               className="logo"
               onClick={() => setShowPreview(true)}
             />
