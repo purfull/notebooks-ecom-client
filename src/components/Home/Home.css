@@ -1,13 +1,6 @@
 
 .home-container {
-  background-color: rgb(231, 247, 183);
 }
 .home-page {
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 10px;
-  grid-row-gap: 0px;
-  height: calc(100vh - 70px);
-  margin-top: 70px;
-  box-sizing: border-box;
+  /* padding: 0 5%; */
 }
