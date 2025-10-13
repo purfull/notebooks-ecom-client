@@ -4,13 +4,14 @@ import Listings from "../Listings/Listings";
 
 import "./home.css";
 import NavBar from "../Navbar/Navbar";
+
 const Home = () => {
   return (
     <div className="home-container">
       <div className="home-page">
         <Banner />
         <Listings />
-
+        {/* <UserProfile /> */}
         {/* <ProductCarousel /> */}
       </div>
     </div>
