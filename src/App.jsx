@@ -21,7 +21,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div style={{ paddingTop: navHeight, padding: "3% 5%" }}>
+      <div style={{paddingTop: navHeight, padding: "3% 5%"}}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product-detail/:id" element={<ProductDetail />} />
