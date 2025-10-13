@@ -7,6 +7,8 @@ import Cart from "./components/Cart/Cart";
 import NavBar from "./components/Navbar/Navbar";
 import Tracking from "./components/OrderTracking/OrderTracking";
 import UserProfile from "./components/UserProfile/UserProfile";
+import Login from "./components/LogIn/Login";
+import Register from "./components/Register/Register";
 function App() {
   const [navHeight, setNavHeight] = useState(0);
 
@@ -26,6 +28,8 @@ function App() {
           <Route path="/checkout" element={<Cart />} />
           <Route path="/ordertracking" element={<Tracking />} />
           <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </>

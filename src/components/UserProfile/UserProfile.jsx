@@ -16,68 +16,85 @@ const UserProfile = () => {
 
         <Form>
           <div className="profile-inputs">
-            <p className="input-label">Name *</p>
-            <Form.Item
-              name="name"
-              rules={[{ required: true, message: "Please input your name!" }]}
-            >
-              <Input placeholder="Name" className="ant-input" />
-            </Form.Item>
+            <div className="form-group">
+              <p className="input-label">Name *</p>
+              <Form.Item
+                name="name"
+                rules={[{ required: true, message: "Please input your name!" }]}
+              >
+                <Input placeholder="Name" className="form-input" />
+              </Form.Item>
+            </div>
 
-            <p className="input-label">Email *</p>
-            <Form.Item
-              name="email"
-              rules={[{ required: true, message: "Please input your email!" }]}
-            >
-              <Input placeholder="Email" className="ant-input" />
-            </Form.Item>
+            <div className="form-group">
+              <p className="input-label">Email *</p>
+              <Form.Item
+                name="email"
+                rules={[
+                  { required: true, message: "Please input your email!" },
+                ]}
+              >
+                <Input placeholder="Email" className="form-input" />
+              </Form.Item>
+            </div>
 
-            <p className="input-label">Phone Number *</p>
-            <Form.Item
-              name="phone"
-              rules={[
-                { required: true, message: "Please input your mobile number!" },
-              ]}
-            >
-              <Input placeholder="Phone Number" className="ant-input" />
-            </Form.Item>
+            <div className="form-group">
+              <p className="input-label">Phone Number *</p>
+              <Form.Item
+                name="phone"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your mobile number!",
+                  },
+                ]}
+              >
+                <Input placeholder="Phone Number" className="form-input" />
+              </Form.Item>
+            </div>
 
-            <p className="input-label">Address *</p>
-            <Form.Item
-              name="address"
-              rules={[
-                { required: true, message: "Please input your address!" },
-              ]}
-            >
-              <Input placeholder="Address" className="ant-input" />
-            </Form.Item>
+            <div className="form-group">
+              <p className="input-label">Address *</p>
+              <Form.Item
+                name="address"
+                rules={[
+                  { required: true, message: "Please input your address!" },
+                ]}
+              >
+                <Input placeholder="Address" className="form-input" />
+              </Form.Item>
+            </div>
 
-            <p className="input-label">Zip-code *</p>
-            <Form.Item
-              name="zip_code"
-              rules={[
-                { required: true, message: "Please input your zip code!" },
-              ]}
-            >
-              <Input placeholder="Zip Code" className="ant-input" />
-            </Form.Item>
+            <div className="form-group">
+              <p className="input-label">Zip-code *</p>
+              <Form.Item
+                name="zip_code"
+                rules={[
+                  { required: true, message: "Please input your zip code!" },
+                ]}
+              >
+                <Input placeholder="Zip Code" className="form-input" />
+              </Form.Item>
+            </div>
 
-            <p className="input-label">Country *</p>
-            <Form.Item
-              name="country"
-              rules={[
-                { required: true, message: "Please input your country!" },
-              ]}
-            >
-              <Input placeholder="Country" className="ant-input" />
-            </Form.Item>
+            <div className="form-group">
+              <p className="input-label">Country *</p>
+              <Form.Item
+                name="country"
+                rules={[
+                  { required: true, message: "Please input your country!" },
+                ]}
+              >
+                <Input placeholder="Country" className="form-input" />
+              </Form.Item>
+            </div>
 
             {/* Submit Button */}
-            {/* <Form.Item> */}
-            <Button className="primary-button" htmlType="submit">
-              Update Profile
-            </Button>
-            {/* </Form.Item> */}
+            <div className="update-profile-button">
+              <Button className="primary-button" htmlType="submit">
+                Update Profile
+              </Button>
+            </div>
           </div>
         </Form>
       </div>
