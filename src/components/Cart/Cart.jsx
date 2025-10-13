@@ -42,7 +42,6 @@ const Cart = () => {
 
   return (
     <div className="cart-component">
-      <Navbar />
       <div className="shopping-cart">
         <div className="review-container">
           {/* Review Item */}
@@ -60,7 +59,7 @@ const Cart = () => {
                 </p>
                 <div className="quantity-selector">
                   <button className="quantity-btn down" onClick={decrease}>
-                    −
+                    -
                   </button>
                   <input
                     type="number"
@@ -69,7 +68,7 @@ const Cart = () => {
                     min="0"
                     max="10"
                     step="1"
-                    readOnly
+                    // readOnly
                   />
                   <button className="quantity-btn up" onClick={increase}>
                     +
