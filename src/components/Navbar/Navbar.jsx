@@ -47,9 +47,11 @@ const NavBar = () => {
               {/* <a href="#">
                 <FaFacebookF />
               </a> */}
-              <a href="" target="_blank">
-                <FaShoppingCart />
+              <div className="" style={{ position: "relative" }}>
+              <a href="/cart">
+                <FaShoppingCart size={24} />
               </a>
+              </div>
               {/* <a href="" target="_blank" style={{ position: "relative" }}> */}
               <div style={{ position: "relative" }}>
                 <FaUserCircle
@@ -64,14 +66,15 @@ const NavBar = () => {
                   className="user-dropdown-menu"
                   style={{
                     position: "absolute",
-                    top: "30px",
+                    top: "35px",
                     right: 0,
                     background: "#fff",
                     border: "1px solid #ccc",
                     borderRadius: "4px",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                     zIndex: 1000,
-                    width: "150px",
+                    padding: "10px 20px",
+                    // width: "150px",
                   }}
                 >
                   <ul style={{ listStyle: "none", margin: 0, padding: "10px" }}>
