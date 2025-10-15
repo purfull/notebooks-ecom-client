@@ -9,6 +9,8 @@ import Tracking from "./components/OrderTracking/OrderTracking";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/LogIn/Login";
 import Register from "./components/Register/Register";
+import Footer from "./components/Footer/Footer";
+import Support from "./components/Support/Support";
 function App() {
   const [navHeight, setNavHeight] = useState(0);
 
@@ -21,7 +23,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div style={{paddingTop: navHeight, padding: "3% 5%"}}>
+      <div style={{ paddingTop: navHeight, padding: "3% 5%" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product-detail/:id" element={<ProductDetail />} />
@@ -30,8 +32,10 @@ function App() {
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/support" element={<Support />} />
         </Routes>
       </div>
+      <Footer />
     </>
   );
 }

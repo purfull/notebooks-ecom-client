@@ -4,6 +4,8 @@ import Note from "../../assets/images/note.jpg";
 import { products } from "../../data/productData";
 import { Button, Rate } from "antd";
 import { useParams } from "react-router-dom";
+import { Divider } from "antd";
+
 const ProductDetail = () => {
   const [productData, setProductData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -53,7 +55,25 @@ const ProductDetail = () => {
             </div>
           )}
           <p className="description">{productData?.description}</p>
+          <Divider />
 
+          <div className="price-total-display">
+            <div className="discount-price">
+              <span className="discounted">{productData?.discount}</span>
+              <span className="product-current-price">
+                ₹{productData?.price}
+              </span>
+            </div>
+            <div className="cancelled-price">
+              <h6 className="cancelled-heading">
+                M.R.P:
+                <span className="original-product-price">
+                  ₹{productData?.originalPrice}
+                </span>
+              </h6>
+            </div>
+            <p>Inclusive of all taxes</p>
+          </div>
           {/* <div className="price-section">
       <span className="current-price">₹{productData?.price}</span>
       <span className="original-price">₹{productData?.originalPrice}</span>
@@ -80,23 +100,22 @@ const ProductDetail = () => {
               Deliver to <strong>Sanjay - Nagercoil 629002</strong>
             </div>
             <div className="quantity">
-  {/* <label htmlFor="qty">Qty:</label> */}
-  <div className="quantity-select">
-    <span className="prefix">quantity:</span>
-    <select
-      id="qty"
-      value={quantity}
-      onChange={(e) => setQuantity(Number(e.target.value))}
-    >
-      {[...Array(10)].map((_, i) => (
-        <option key={i + 1} value={i + 1}>
-          {i + 1}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
-
+              {/* <label htmlFor="qty">Qty:</label> */}
+              <div className="quantity-select">
+                <span className="prefix">quantity:</span>
+                <select
+                  id="qty"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                >
+                  {[...Array(10)].map((_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
             <div className="checkout-buttons">
               <Button className="buy-now">Buy Now</Button>
