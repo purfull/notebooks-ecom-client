@@ -3,7 +3,6 @@ import Banner from "../Banner/Banner";
 import Listings from "../Listings/Listings";
 
 import "./home.css";
-import NavBar from "../Navbar/Navbar";
 
 const Home = () => {
   return (
