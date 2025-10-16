@@ -161,7 +161,7 @@ const ProductDetail = () => {
                 <span className="rating-text">{productData?.rating}</span>
               </div>
             )}
-            <p className="description">{productData?.description}</p>
+            {/* <p className="description">{productData?.description}</p> */}
             <Divider />
           </div>
 
