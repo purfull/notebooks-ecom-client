@@ -1,0 +1,140 @@
+.failure-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff6f6;
+  padding: 2rem;
+
+  .failure-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+
+    .failure-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1rem;
+      display: block;
+    }
+
+    .failure-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #d93025;
+      margin-bottom: 0.5rem;
+    }
+
+    .failure-message {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 0.3rem;
+    }
+
+    .failure-subtext {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .failure-summary {
+      background: #fdeaea;
+      border: 1px solid #f4b8b8;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      margin-bottom: 1.5rem;
+
+      p {
+        margin: 0.3rem 0;
+        color: #333;
+
+        strong {
+          color: #000;
+        }
+      }
+    }
+
+    .failure-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .retry-button {
+        text-decoration: none;
+        background: #d93025;
+        color: #fff;
+        padding: 0.8rem 1.6rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: #b3271f;
+        }
+      }
+
+      .back-home-button {
+        text-decoration: none;
+        background: #555;
+        color: #fff;
+        padding: 0.8rem 1.6rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: #333;
+        }
+      }
+    }
+  }
+}
+
+/* ✅ Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive styles */
+@media (max-width: 600px) {
+  .failure-wrapper {
+    padding: 1rem;
+
+    .failure-card {
+      padding: 1.5rem;
+
+      .failure-title {
+        font-size: 1.5rem;
+      }
+
+      .failure-icon {
+        width: 80px;
+        height: 80px;
+      }
+
+      .failure-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+
+        a {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

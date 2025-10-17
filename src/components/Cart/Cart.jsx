@@ -8,6 +8,12 @@ const Cart = () => {
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [quantity, setQuantity] = useState(0);
 
+  const [amount, setAmount] = useState("");
+
+  // const handleChange = (e) => {
+  //   setAmount(e.target.value);
+  // };
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -20,10 +26,12 @@ const Cart = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+
     setFormData({
       ...formData,
       [id]: value,
     });
+    // setAmount(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -40,6 +48,43 @@ const Cart = () => {
     if (quantity > 0) setQuantity(quantity - 1);
   };
 
+  const handleSubmitPayment = (e) => {
+    e.preventDefault();
+
+    if (paymentMethod === "Cash on Delivery") {
+      alert("Order placed successfully with Cash on Delivery!");
+      navigate("/success"); 
+      return;
+    }
+
+    var options = {
+      key: "rzp_test_RURZe7RfRNLjyf",
+      key_secret: "P1xhi1cmEU3lxvP1xllgmX3f",
+      amount: "100",
+      currency: "INR",
+      name: "NoteBook",
+      description: "Selling notebooks and stationery",
+      handler: function (response) {
+        console.log("Payment ID:", response.razorpay_payment_id);
+        console.log("Order ID:", response.razorpay_order_id);
+        console.log("Signature:", response.razorpay_signature);
+      },
+      callback_url: " ",
+      prefill: {
+        name: "Sanjay",
+        email: "xyz@gmail.com",
+        phone: "",
+      },
+      notes: {
+        address: "Nagercoil",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    var pay = new window.Razorpay(options); //initialize
+    pay.open(); //fn
+  };
   return (
     <div className="cart-component">
       <div className="shopping-cart">
@@ -153,12 +198,12 @@ const Cart = () => {
                 onChange={handleChange}
                 required
               />
+              <div className="submit-row">
+                <button className="submit-button" type="submit">
+                  Submit
+                </button>
+              </div>
             </form>
-            <div className="submit-row">
-              <button className="submit-button" type="submit">
-                Submit
-              </button>
-            </div>
           </Card>
         </div>
 
@@ -174,11 +219,20 @@ const Cart = () => {
             >
               <Space direction="vertical">
                 <Radio value="Cash on Delivery">Cash on Delivery</Radio>
-                <Radio value="Shopcart Card">Upi</Radio>
-                <Radio value="Paypal">Paypal</Radio>
-                <Radio value="Credit or Debit card">Credit or Debit card</Radio>
+                <Radio value="paynow">Pay Now</Radio>
+                {/* <Radio value="Paypal">Paypal</Radio>
+                <Radio value="Credit or Debit card">Credit or Debit card</Radio> */}
               </Space>
             </Radio.Group>
+          </div>
+          <div className="pay">
+            <button
+              className="proceedtopay"
+              type="submit"
+              onClick={handleSubmitPayment}
+            >
+              Proceed to Pay
+            </button>
           </div>
         </Card>
       </div>

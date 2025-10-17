@@ -13,6 +13,8 @@ import Brand from "../../assets/icon/brand.png";
 import Return from "../../assets/icon/return-box.png";
 import Secure from "../../assets/icon/secure.png";
 import Ontime from "../../assets/icon/on-time.png";
+import { useNavigate } from "react-router-dom";
+
 const ProductDetail = () => {
   const [productData, setProductData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -25,6 +27,9 @@ const ProductDetail = () => {
     const productData = products.find((el) => el.id == id);
     setProductData(productData);
   }, []);
+
+  //directing to checkout page
+  const navigate = useNavigate();
 
   return (
     <div className="productdetail-component">
@@ -340,7 +345,9 @@ const ProductDetail = () => {
             </div>
 
             <div className="checkout-buttons">
-              <Button className="buy-now">Buy Now</Button>
+              <Button className="buy-now" onClick={() => navigate("/checkout")}>
+                Buy Now
+              </Button>
               <Button className="add-cart">Add to Cart</Button>
             </div>
 
