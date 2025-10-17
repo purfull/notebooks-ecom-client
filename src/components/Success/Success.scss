@@ -1,0 +1,157 @@
+.success-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f8fafb;
+  padding: 2rem;
+
+  .success-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1rem;
+      display: block;
+    }
+
+    .success-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #28a745;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-message {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 0.3rem;
+
+      strong {
+        color: #222;
+      }
+    }
+
+    .success-subtext {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+
+      strong {
+        color: #111;
+      }
+    }
+
+    .success-summary {
+      background: #f1fdf4;
+      border: 1px solid #b5ebc0;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      margin-bottom: 1.5rem;
+
+      p {
+        margin: 0.3rem 0;
+        color: #333;
+
+        strong {
+          color: #000;
+        }
+      }
+    }
+
+    .success-items {
+      text-align: left;
+      margin-bottom: 1.5rem;
+
+      h3 {
+        color: #222;
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+        border-bottom: 2px solid #28a745;
+        display: inline-block;
+        padding-bottom: 0.2rem;
+      }
+
+      .item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #eee;
+
+        .item-info {
+          .item-name {
+            font-weight: 500;
+            color: #333;
+          }
+
+          .item-qty {
+            font-size: 0.9rem;
+            color: #666;
+          }
+        }
+
+        .item-price {
+          font-weight: 600;
+          color: #111;
+        }
+      }
+    }
+
+    .back-home-button {
+      display: inline-block;
+      text-decoration: none;
+      background: #28a745;
+      color: #fff;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #218838;
+      }
+    }
+  }
+}
+
+/* ✅ Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive styles */
+@media (max-width: 600px) {
+  .success-wrapper {
+    padding: 1rem;
+
+    .success-card {
+      padding: 1.5rem;
+
+      .success-title {
+        font-size: 1.5rem;
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  }
+}

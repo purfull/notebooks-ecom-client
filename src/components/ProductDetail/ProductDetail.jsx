@@ -17,6 +17,8 @@ import Secure from "../../assets/icon/secure.png";
 import Ontime from "../../assets/icon/on-time.png";
 
 gsap.registerPlugin(ScrollTrigger);
+import { useNavigate } from "react-router-dom";
+
 const ProductDetail = () => {
   const [productData, setProductData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -59,6 +61,9 @@ const [isMobile, setIsMobile] = useState(false);
     };
   }, [isMobile]);
 
+
+  //directing to checkout page
+  const navigate = useNavigate();
 
   return (
     <div className="productdetail-component" ref={containerRef}>
@@ -420,7 +425,9 @@ const [isMobile, setIsMobile] = useState(false);
             </div>
 
             <div className="checkout-buttons">
-              <Button className="buy-now">Buy Now</Button>
+              <Button className="buy-now" onClick={() => navigate("/checkout")}>
+                Buy Now
+              </Button>
               <Button className="add-cart">Add to Cart</Button>
             </div>
 

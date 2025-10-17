@@ -11,6 +11,9 @@ import Login from "./components/LogIn/Login";
 import Register from "./components/Register/Register";
 import Footer from "./components/Footer/Footer";
 import Support from "./components/Support/Support";
+import Success from "./components/Success/Success";
+import Failure from "./components/Failure/Failure";
+
 function App() {
   const [navHeight, setNavHeight] = useState(0);
 
@@ -33,6 +36,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/support" element={<Support />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/failure" element={<Failure />} />
         </Routes>
       </div>
       <Footer />
