@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ProductDetail.scss";
 import Report from "../../assets/icon/report.png";
 import Discount from "../../assets/icon/discount.png";
@@ -7,32 +7,66 @@ import { Button, Card, Rate } from "antd";
 import { useParams } from "react-router-dom";
 import { Divider } from "antd";
 import { Link } from "react-router-dom";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FreeDelivery from "../../assets/icon/free-delivery.png";
 import CashDelivery from "../../assets/icon/cash-on-delivery.png";
 import Brand from "../../assets/icon/brand.png";
 import Return from "../../assets/icon/return-box.png";
 import Secure from "../../assets/icon/secure.png";
 import Ontime from "../../assets/icon/on-time.png";
+
+gsap.registerPlugin(ScrollTrigger);
 import { useNavigate } from "react-router-dom";
 
 const Detail = () => {
   const [productData, setProductData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-
+const [isMobile, setIsMobile] = useState(false);
   const [showOffers, setShowOffers] = useState(false);
-
+  const containerRef = useRef(null); 
+  const pinRef = useRef(null);  
   let { id } = useParams();
   useEffect(() => {
     const productData = products.find((el) => el.id == id);
     setProductData(productData);
   }, []);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)");
+    const handleMq = () => setIsMobile(mq.matches);
+    handleMq();
+    mq.addEventListener?.("change", handleMq);
+
+    let st;
+    if (!isMobile && containerRef.current && pinRef.current) {
+      st = ScrollTrigger.create({
+        trigger: containerRef.current,
+        pin: pinRef.current,
+        start: "top top+=80",
+        end: "bottom bottom-=20",
+        pinSpacing: true,
+        anticipatePin: 1,
+        // scrub: true,
+      });
+    }
+
+    return () => {
+      mq.removeEventListener?.("change", handleMq);
+      if (st) st.kill();
+      // cleanup any ScrollTrigger instances referencing these elements
+      ScrollTrigger.getAll().forEach((t) => {
+        if (t.trigger === containerRef.current || t.pin === pinRef.current) t.kill();
+      });
+    };
+  }, [isMobile]);
+
 
   //directing to checkout page
   const navigate = useNavigate();
 
   return (
-    <div className="productdetail-component">
+    <div className="productdetail-component" ref={containerRef}>
       <div className="product-detail-page">
         <div className="left-detail">
           <div className="session-top">
@@ -97,6 +131,10 @@ const Detail = () => {
                 {/* <p className="description">{productData?.description}</p> */}
                 <Divider />
               </div>
+            )}
+            {/* <p className="description">{productData?.description}</p> */}
+            {/* <Divider /> */}
+          </div>
 
               {/* Rest of middle content */}
               <div className="middle-content">
@@ -120,6 +158,76 @@ const Detail = () => {
                       </h6>
                     </div>
                     <p>Inclusive of all taxes</p>
+              <div className="for-offers">
+              
+                <div className="delivery-icons">
+                  <div className="icons-grp">
+                    <img src={Return} alt="return" className="return" />
+                    <span className="icons-grp-name">10 days Return </span>
+                  </div>
+                  <div className="icons-grp">
+                    <img
+                      src={CashDelivery}
+                      alt="cashDelivery"
+                      className="cash-on"
+                    />
+                    <span className="icons-grp-name">Cash/Pay on Delivery</span>
+                  </div>
+                  <div className="icons-grp">
+                    <img
+                      src={FreeDelivery}
+                      alt="free-delivery"
+                      className="free"
+                    />
+                    <span className="icons-grp-name">Free Delivery</span>
+                  </div>
+                  <div className="icons-grp">
+                    <img src={Brand} alt="topbrand" className="top-brand" />
+                    <span className="icons-grp-name">Top Brand</span>
+                  </div>
+                  <div className="icons-grp">
+                    <img src={Ontime} alt="ontime" className="on-time" />
+                    <span className="icons-grp-name">On-Time Delivery</span>
+                  </div>
+                  <div className="icons-grp">
+                    <img
+                      src={Secure}
+                      alt="securetranscation"
+                      className="secure"
+                    />
+                    <span className="icons-grp-name">Secure transcation</span>
+                  </div>
+                </div>
+                <div className="for-offers">
+                  
+                <div
+                  className="offers-heading"
+                  onClick={() => setShowOffers(!showOffers)}
+                >
+                  <img
+                    src={Discount}
+                    alt="discount"
+                    className="discount-icon"
+                  />
+                  <h4 className="offers-name">Offers</h4>
+                  <span className="dropdown-icon">
+                    {showOffers ? "▲" : "▼"}
+                  </span>
+                </div>
+                <div
+                  className={`offers-content ${showOffers ? "open" : "closed"}`}
+                >
+                  <div className="offers-card">
+                    <Card>Cashback</Card>
+                    <Card>Cashback</Card>
+                    <Card>Cashback</Card>
+                  </div>
+                </div>
+                </div>
+                {/* <div className="delivery-icons">
+                  <div className="icons-grp">
+                    <img src={Return} alt="return" className="return" />
+                    <span className="icons-grp-name">10 days Return </span>
                   </div>
 
                   <div className="for-offers">
@@ -255,6 +363,31 @@ const Detail = () => {
               </Link>
             </div>
           </div>
+          
+
+            <div className="info-grid">
+              <div className="info-group">
+                <h3>Brand</h3>
+                <p>NoteBook</p>
+              </div>
+              <div className="info-group">
+                <h3>Colour</h3>
+                <p>Multi</p>
+              </div>
+              <div className="info-group">
+                <h3>Theme</h3>
+                <p>Plain</p>
+              </div>
+              <div className="info-group">
+                <h3>Size</h3>
+                <p>A4</p>
+              </div>
+              <div className="info-group">
+                <h3>Pages</h3>
+                <p>120</p>
+              </div>
+              <Divider />
+            </div>
         </div>
 
         {/* RIGHT CHECKOUT BOX */}
