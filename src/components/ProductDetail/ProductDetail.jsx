@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Detail.scss";
+import "./ProductDetail.scss";
 import Report from "../../assets/icon/report.png";
 import Discount from "../../assets/icon/discount.png";
 import { products } from "../../data/productData";
