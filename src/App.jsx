@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./components/Home/Home";
-import ProductDetail from "./components/ProductDetail/ProductDetail";
 import { useEffect, useState } from "react";
 import Cart from "./components/Cart/Cart";
 import NavBar from "./components/Navbar/Navbar";
@@ -13,6 +12,7 @@ import Footer from "./components/Footer/Footer";
 import Support from "./components/Support/Support";
 import Success from "./components/Success/Success";
 import Failure from "./components/Failure/Failure";
+import Detail from "./components/ProductDetail/ProductDetail";
 
 function App() {
   const [navHeight, setNavHeight] = useState(0);
@@ -29,7 +29,7 @@ function App() {
       <div style={{ paddingTop: navHeight, padding: "3% 5%" }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/product-detail/:id" element={<ProductDetail />} />
+          <Route path="/product-detail/:id" element={<Detail />} />
           {/* <Route path="/product-detail/:id" element={<ProductDetail />} /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/ordertracking" element={<Tracking />} />
