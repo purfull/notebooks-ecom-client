@@ -17,18 +17,17 @@ import Secure from "../../assets/icon/secure.png";
 import Ontime from "../../assets/icon/on-time.png";
 import { useNavigate } from "react-router-dom";
 
-
 gsap.registerPlugin(ScrollTrigger);
 
 const Detail = () => {
   const [productData, setProductData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [showOffers, setShowOffers] = useState(false);
-  const containerRef = useRef(null); 
-  const pinRef = useRef(null);  
+  const containerRef = useRef(null);
+  const pinRef = useRef(null);
 
   let { id } = useParams();
   useEffect(() => {
@@ -60,7 +59,8 @@ const [isMobile, setIsMobile] = useState(false);
       if (st) st.kill();
       // cleanup any ScrollTrigger instances referencing these elements
       ScrollTrigger.getAll().forEach((t) => {
-        if (t.trigger === containerRef.current || t.pin === pinRef.current) t.kill();
+        if (t.trigger === containerRef.current || t.pin === pinRef.current)
+          t.kill();
       });
     };
   }, [isMobile]);
@@ -187,6 +187,9 @@ const [isMobile, setIsMobile] = useState(false);
                     </div>
 
                     <div className="delivery-icons">
+                      <h3 className="delivery-icon-heading">
+                        Shop with Confidence
+                      </h3>
                       <div className="icons-grp">
                         <img src={Return} alt="return" className="return" />
                         <span className="icons-grp-name">10 days Return </span>
@@ -236,6 +239,7 @@ const [isMobile, setIsMobile] = useState(false);
           </div>
 
           <div className="session-bottom">
+            <h3 className="highlights">Product Details</h3>
             <div className="info-grid">
               <div className="info-group">
                 <h3>Brand</h3>
@@ -297,7 +301,7 @@ const [isMobile, setIsMobile] = useState(false);
         {/* RIGHT CHECKOUT BOX */}
         <div className="right-detail">
           <div className="detail-right">
-            <div className="checkout-box" style={{top: "-20px"}} ref={pinRef}>
+            <div className="checkout-box" style={{ top: "-20px" }} ref={pinRef}>
               <div className="price-section">
                 <span className="current-price">₹{productData?.price}</span>
                 <span className="original-price">
