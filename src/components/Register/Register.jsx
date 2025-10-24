@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // import { GoogleLogin } from "@react-oauth/google";
 import "./Register.scss";
-import { ClipLoader } from "react-spinners";
+import { ClipLoader, PulseLoader } from "react-spinners";
 import axios from "axios";
 
 const Register = () => {
@@ -235,9 +235,9 @@ const Register = () => {
 
             <button type="submit" className="submit-button" disabled={loading}>
               {loading ? (
-                <ClipLoader
-                  height="20"
-                  width="60"
+                <PulseLoader
+                  height="10"
+                  width="40"
                   radius="9"
                   color="#ffffff"
                   ariaLabel="three-dots-loading"
