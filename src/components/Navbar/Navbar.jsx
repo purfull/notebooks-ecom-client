@@ -5,11 +5,10 @@ import { HiMenu, HiX } from "react-icons/hi";
 import "./navBar.scss";
 
 const NavBar = () => {
-
   const [isOpen, setIsOpen] = useState(false);
   //  set this in redux
   const [isLogin, setIsLogin] = useState(false);
-  
+
   const [showPreview, setShowPreview] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
 
@@ -45,69 +44,77 @@ const NavBar = () => {
           </div>
 
           {/* Desktop Menu */}
-          {!isLogin && <div className="nav-links-container">
-            <Link to="/login">
-            <div className="navbar-login-button" style={{ position: "relative" }}>
-                <FaUserCircle
-                  size={24}
-                  onClick={() => setUserDropdown(!userDropdown)}
-                  
-                />
-                <a>sign in</a>
-              </div>
+          {!isLogin && (
+            <div className="nav-links-container">
+              <Link to="/login">
+                <div
+                  className="navbar-login-button"
+                  style={{ position: "relative" }}
+                >
+                  <FaUserCircle
+                    size={24}
+                    onClick={() => setUserDropdown(!userDropdown)}
+                  />
+                  <a>sign in</a>
+                </div>
               </Link>
-          </div>}
-          {isLogin && <div className="nav-links-container">
-            {/* Social Icons */}
-            <div className="social-icons">
-              {/* <a href="#">
+            </div>
+          )}
+          {isLogin && (
+            <div className="nav-links-container">
+              {/* Social Icons */}
+              <div className="social-icons">
+                {/* <a href="#">
                 <FaFacebookF />
               </a> */}
-              <div className="" style={{ position: "relative" }}>
-              <a href="/cart">
-                <FaShoppingCart size={24} />
-              </a>
-              </div>
-              {/* <a href="" target="_blank" style={{ position: "relative" }}> */}
-              <div style={{ position: "relative" }}>
-                <FaUserCircle
-                  size={24}
-                  onClick={() => setUserDropdown(!userDropdown)}
-                  style={{ cursor: "pointer" }}
-                />
-                {/* </a> */}
-              </div>
-              {userDropdown && (
-                <div
-                  className="user-dropdown-menu"
-                  style={{
-                    position: "absolute",
-                    top: "35px",
-                    right: 0,
-                    background: "#fff",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                    zIndex: 1000,
-                    padding: "10px 20px",
-                    // width: "150px",
-                  }}
-                >
-                  <ul style={{ listStyle: "none", margin: 0, padding: "10px" }}>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>
-                      <Link to="/userprofile">Profile</Link>
-                    </li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>
-                       <Link to="/ordertracking">Orders</Link>
-                    </li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>
-                      Logout
-                    </li>
-                  </ul>
+                <div className="" style={{ position: "relative" }}>
+                  <a href="/cart">
+                    <FaShoppingCart size={24} />
+                  </a>
                 </div>
-              )}
+                {/* <a href="" target="_blank" style={{ position: "relative" }}> */}
+                <div style={{ position: "relative" }}>
+                  <FaUserCircle
+                    size={24}
+                    onClick={() => setUserDropdown(!userDropdown)}
+                    style={{ cursor: "pointer" }}
+                  />
+                  {/* </a> */}
+                </div>
+                {userDropdown && (
+                  <div
+                    className="user-dropdown-menu"
+                    style={{
+                      position: "absolute",
+                      top: "35px",
+                      right: 0,
+                      background: "#fff",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                      zIndex: 1000,
+                      padding: "10px 20px",
+                      // width: "150px",
+                    }}
+                  >
+                    <ul
+                      style={{ listStyle: "none", margin: 0, padding: "10px" }}
+                    >
+                      <li style={{ padding: "8px 0", cursor: "pointer" }}>
+                        <Link to="/userprofile">Profile</Link>
+                      </li>
+                      <li style={{ padding: "8px 0", cursor: "pointer" }}>
+                        <Link to="/ordertracking">Orders</Link>
+                      </li>
+                      <li style={{ padding: "8px 0", cursor: "pointer" }}>
+                        Logout
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>}
+          )}
 
           {/* Mobile Menu Button */}
           <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>

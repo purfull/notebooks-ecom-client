@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { GoogleLogin } from "@react-oauth/google";
 import "./Register.scss";
 import { ClipLoader, PulseLoader } from "react-spinners";
-import axios from "axios";
 
 const Register = () => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  //err message
-  const [errors, setErrors] = useState({});
+  //err message To display
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -45,29 +44,25 @@ const Register = () => {
     setStep(2);
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     //loader
     setLoading(true);
 
-    // console.log("Registration Data:", formData);
-    // alert("Registration submitted!");
+    const response = {
+      success: false,
+      message: "User Already exists",
+    };
+    setLoading(false);
 
-    try {
-      const response = await axios.post("https://api/register", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("Form submitted successfully:", response.data);
-      alert("Registration submitted!");
-    } catch (err) {
-      console.log("error", err.response?.data || err.message);
-      alert("Failed to submit form. Please try again.");
-    } finally {
-      setLoading(false); // Stop loader
+    if (!response.success) {
+      setError(response.message);
+      return;
     }
+    navigate("/");
   };
 
   // };
@@ -77,6 +72,7 @@ const Register = () => {
       <div className="register-card">
         <h2 className="register-title">Create your account</h2>
         <p className="register-subtitle">Enjoy shopping!</p>
+        {error && <p className="err-message">{error}</p>}
 
         {step === 1 && (
           <form className="register-form" onSubmit={handleContinue}>
