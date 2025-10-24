@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   // min-height: 100vh;
-  padding: 20px;
+  padding: 3% 20px;
 
   .login-card {
     background: #fff;
@@ -14,11 +14,11 @@
     width: 100%;
     text-align: center;
     transition: transform 0.3s ease;
-    margin-top: 5rem;
+    // margin-top: 5rem;
 
-    &:hover {
-      transform: translateY(-2px);
-    }
+    // &:hover {
+    //   transform: translateY(-2px);
+    // }
 
     .login-title {
       font-size: 1.8rem;
@@ -117,7 +117,7 @@
 
         &:hover {
           background-color: #4e00ba;
-          transform: translateY(-1px);
+          // transform: translateY(-1px);
         }
       }
     }

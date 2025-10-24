@@ -7,7 +7,7 @@ import { Steps, Dropdown } from "antd";
 const { Step } = Steps;
 const OrderTracking = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const onChange = (value) => {
     console.log("onChange:", value);
