@@ -13,6 +13,8 @@ import Support from "./components/Support/Support";
 import Success from "./components/Success/Success";
 import Failure from "./components/Failure/Failure";
 import Detail from "./components/ProductDetail/ProductDetail";
+import store from "./store/store";
+import { Provider } from "react-redux";
 
 function App() {
   const [navHeight, setNavHeight] = useState(0);
@@ -24,7 +26,7 @@ function App() {
     setNavHeight(navHeight.offsetHeight);
   }, []);
   return (
-    <>
+    <Provider store={store}>
       <NavBar />
       <div style={{ paddingTop: navHeight, padding: "3% 5%" }}>
         <Routes>
@@ -42,7 +44,7 @@ function App() {
         </Routes>
       </div>
       <Footer />
-    </>
+    </Provider>
   );
 }
 

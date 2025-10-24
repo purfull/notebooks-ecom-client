@@ -5,7 +5,11 @@ import { HiMenu, HiX } from "react-icons/hi";
 import "./navBar.scss";
 
 const NavBar = () => {
+
   const [isOpen, setIsOpen] = useState(false);
+  //  set this in redux
+  const [isLogin, setIsLogin] = useState(false);
+  
   const [showPreview, setShowPreview] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
 
@@ -41,7 +45,19 @@ const NavBar = () => {
           </div>
 
           {/* Desktop Menu */}
-          <div className="nav-links-container">
+          {!isLogin && <div className="nav-links-container">
+            <Link to="/login">
+            <div className="navbar-login-button" style={{ position: "relative" }}>
+                <FaUserCircle
+                  size={24}
+                  onClick={() => setUserDropdown(!userDropdown)}
+                  
+                />
+                <a>sign in</a>
+              </div>
+              </Link>
+          </div>}
+          {isLogin && <div className="nav-links-container">
             {/* Social Icons */}
             <div className="social-icons">
               {/* <a href="#">
@@ -82,7 +98,7 @@ const NavBar = () => {
                       <Link to="/userprofile">Profile</Link>
                     </li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }}>
-                      Orders
+                       <Link to="/ordertracking">Orders</Link>
                     </li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }}>
                       Logout
@@ -91,7 +107,7 @@ const NavBar = () => {
                 </div>
               )}
             </div>
-          </div>
+          </div>}
 
           {/* Mobile Menu Button */}
           <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>

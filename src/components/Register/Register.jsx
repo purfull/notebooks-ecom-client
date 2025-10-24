@@ -2,13 +2,23 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // import { GoogleLogin } from "@react-oauth/google";
 import "./Register.scss";
+import { ClipLoader, PulseLoader } from "react-spinners";
+import axios from "axios";
 
 const Register = () => {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  //err message
+  const [errors, setErrors] = useState({});
+
   const [formData, setFormData] = useState({
     name: "",
+    orderchoice: "",
     email: "",
     password: "",
+    orgName: "",
+    position: "",
     phone: "",
     address: "",
     zip_code: "",
@@ -21,14 +31,46 @@ const Register = () => {
 
   const handleContinue = (e) => {
     e.preventDefault();
+
+    //password validation 8 character needed
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(formData.password)) {
+      alert(
+        "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
+      );
+      return;
+    }
     setStep(2);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Registration Data:", formData);
-    alert("Registration submitted!");
+    //loader
+    setLoading(true);
+
+    // console.log("Registration Data:", formData);
+    // alert("Registration submitted!");
+
+    try {
+      const response = await axios.post("https://api/register", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Form submitted successfully:", response.data);
+      alert("Registration submitted!");
+    } catch (err) {
+      console.log("error", err.response?.data || err.message);
+      alert("Failed to submit form. Please try again.");
+    } finally {
+      setLoading(false); // Stop loader
+    }
   };
+
+  // };
 
   return (
     <div className="register-wrapper">
@@ -73,6 +115,67 @@ const Register = () => {
                 required
               />
             </div>
+
+            <div className="form-group">
+              <label>Are looking to purchase in Bulk Orders?</label>
+
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="orderchoice"
+                    value="yes"
+                    checked={formData.orderchoice === "yes"}
+                    onChange={(e) =>
+                      setFormData({ ...formData, orderchoice: e.target.value })
+                    }
+                    required
+                  />
+                  Yes
+                </label>
+
+                <label>
+                  <input
+                    type="radio"
+                    name="orderchoice"
+                    value="no"
+                    checked={formData.orderchoice === "no"}
+                    onChange={(e) =>
+                      setFormData({ ...formData, orderchoice: e.target.value })
+                    }
+                    required
+                  />
+                  No
+                </label>
+              </div>
+            </div>
+
+            {formData.orderchoice === "yes" && (
+              <>
+                <div className="form-group">
+                  <label>Your Organisation Name</label>
+                  <input
+                    type="text"
+                    name="orgName"
+                    placeholder="Enter your Organisation Name"
+                    value={formData.orgName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Your Position in the Organisation</label>
+                  <input
+                    type="text"
+                    name="position"
+                    placeholder="Enter your Position"
+                    value={formData.position}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </>
+            )}
 
             <button type="submit" className="continue-button">
               Continue
@@ -130,8 +233,19 @@ const Register = () => {
               />
             </div>
 
-            <button type="submit" className="submit-button">
-              Submit
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? (
+                <PulseLoader
+                  height="10"
+                  width="40"
+                  radius="9"
+                  color="#ffffff"
+                  ariaLabel="three-dots-loading"
+                  visible={true}
+                />
+              ) : (
+                "Submit"
+              )}
             </button>
           </form>
         )}
@@ -147,7 +261,7 @@ const Register = () => {
         </div> */}
 
         <p className="already-registered">
-          Already have an account? <Link to="/">Sign in</Link>
+          Already have an account? <Link to="/login">Sign in</Link>
         </p>
       </div>
     </div>

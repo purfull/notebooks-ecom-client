@@ -18,6 +18,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .navbar-login-button {
+      padding: 6px 10px;
+      background-color: #6200ed;
+      color: #fff;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border-radius: 24px;
+      a {
+        text-decoration: none !important;
+        font-weight: 700;
+      }
+    }
   }
 
   .nav-links-container {

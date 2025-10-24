@@ -11,25 +11,36 @@ const Login = () => {
   //   const dispatch = useDispatch();
   //   const navigate = useNavigate();
 
-  //   const handleChange = (e) => {
-  //     setFormData({ ...formData, [e.target.name]: e.target.value });
-  //   };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  //   const handleLoginSubmit = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       const result = await dispatch(createlogin(formData)).unwrap();
-  //       if (result.success) {
-  //         alert("Login successfully!");
-  //         navigate("/feed");
-  //       } else {
-  //         alert("Email or password is incorrect!");
-  //       }
-  //     } catch (err) {
-  //       alert("Login failed. Please check your credentials!");
-  //       console.error(err);
-  //     }
-  //   };
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+
+    //password validation 8 character needed
+    // const passwordRegex =
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    // if (!passwordRegex.test(formData.password)) {
+    //   alert(
+    //     "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
+    //   );
+    //   return;
+    // }
+    // try {
+    //   const result = await dispatch(createlogin(formData)).unwrap();
+    //   if (result.success) {
+    //     alert("Login successfully!");
+    //     navigate("/feed");
+    //   } else {
+    //     alert("Email or password is incorrect!");
+    //   }
+    // } catch (err) {
+    //   alert("Login failed. Please check your credentials!");
+    //   console.error(err);
+    // }
+  };
 
   return (
     <div className="login-wrapper">
@@ -56,7 +67,7 @@ const Login = () => {
               name="email"
               placeholder="Enter your email"
               value={formData.email}
-              //   onChange={handleChange}
+              onChange={handleChange}
               required
             />
           </div>
@@ -68,7 +79,7 @@ const Login = () => {
               name="password"
               placeholder="Enter your password"
               value={formData.password}
-              //   onChange={handleChange}
+              onChange={handleChange}
               required
             />
           </div>
@@ -79,7 +90,11 @@ const Login = () => {
             </Link>
           </div>
 
-          <button type="submit" className="login-button">
+          <button
+            type="submit"
+            className="login-button"
+            onClick={handleLoginSubmit}
+          >
             Sign In
           </button>
         </form>
