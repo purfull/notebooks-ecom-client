@@ -33,15 +33,15 @@ const Register = () => {
     e.preventDefault();
 
     //password validation 8 character needed
-    // const passwordRegex =
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    // if (!passwordRegex.test(formData.password)) {
-    //   alert(
-    //     "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
-    //   );
-    //   return;
-    // }
+    if (!passwordRegex.test(formData.password)) {
+      alert(
+        "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
+      );
+      return;
+    }
     setStep(2);
   };
 
