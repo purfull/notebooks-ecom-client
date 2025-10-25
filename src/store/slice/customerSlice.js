@@ -1,21 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { buildCreateSlice, createAsyncThunk,  } from "@reduxjs/toolkit";
+import axios from "axios";
 
 
-export const createCustomers = createAsyncThunk(
-    "register/create-register",
-    async (formData) => {
-        const response = await fetch("", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        });
-        const data = await response.json();
-        return data;
-    }
+export const createCustomers = createAsyncThunk( "register/create-register", async (formData) => {
+    const response = await axios.post( "http://localhost:5500/customer/create-customer",
+        formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data; 
+  }
 );
+
 
 const custoemrSlice = createSlice({
     initialState: {
@@ -24,7 +24,6 @@ const custoemrSlice = createSlice({
         customersData: [],
     },
     name: "customer",
-
     reducers:{
         add:()=>{
 

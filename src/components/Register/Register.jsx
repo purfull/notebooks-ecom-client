@@ -3,8 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 // import { GoogleLogin } from "@react-oauth/google";
 import "./Register.scss";
 import { ClipLoader, PulseLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { createCustomers } from "../../store/slice/customerSlice";
 
 const Register = () => {
+
+  //selectors 
+  const customerSelector = useSelector((state) => state.customer);
+
+  //dispatch
+  const dispatch = useDispatch();
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -19,14 +28,21 @@ const Register = () => {
     orgName: "",
     position: "",
     phone: "",
+    state: "",
+    city: "",
+    country: "",
     address: "",
     zip_code: "",
-    country: "",
+    isB2B: 1
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
+
 
   const handleContinue = (e) => {
     e.preventDefault();
@@ -44,11 +60,45 @@ const Register = () => {
     setStep(2);
   };
 
+  //navigate property
   const navigate = useNavigate();
+
+
+  //onlick for create  customer in db 
+
+  const createcustomerSumbit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        "userName": formData.name,
+        "name": formData.name,
+        "email": formData.email,
+        "phone": formData.phone,
+        "password": formData.password,
+        "address": formData.address,
+        "city": formData.city,
+        "state": formData.state,
+        "country": formData.country,
+        "postalCode": formData.zip_code,
+        "isB2B": true,
+        "businessName": formData.orgName,
+        "role": formData.position,
+        "isb2b": formData.isB2B
+      }
+      alert("welcome to our book store")
+      await dispatch(createCustomers(payload)).unwrap();
+      navigate("/")
+      console.log(payload, "hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    } catch (err) {
+      console.log("fix your Bug your corrections ")
+    }
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     //loader
     setLoading(true);
 
@@ -65,7 +115,7 @@ const Register = () => {
     navigate("/");
   };
 
-  // };
+
 
   return (
     <div className="register-wrapper">
@@ -143,6 +193,7 @@ const Register = () => {
                   />
                   No
                 </label>
+
               </div>
             </div>
 
@@ -206,6 +257,31 @@ const Register = () => {
             </div>
 
             <div className="form-group">
+              <label>city</label>
+              <input
+                type="text"
+                name="city"
+                placeholder="Enter your city "
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+
+            <div className="form-group">
+              <label>State</label>
+              <input
+                type="text"
+                name="state"
+                placeholder="Enter your state "
+                value={formData.state}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
               <label>Zip-code</label>
               <input
                 type="text"
@@ -229,7 +305,7 @@ const Register = () => {
               />
             </div>
 
-            <button type="submit" className="submit-button" disabled={loading}>
+            <button type="submit" className="submit-button" disabled={loading} onClick={createcustomerSumbit} >
               {loading ? (
                 <PulseLoader
                   height="10"
@@ -239,6 +315,7 @@ const Register = () => {
                   ariaLabel="three-dots-loading"
                   visible={true}
                 />
+
               ) : (
                 "Submit"
               )}
