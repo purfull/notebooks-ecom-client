@@ -19,7 +19,7 @@
 
   .summary {
     width: 30%;
-    padding: 10px;
+    padding: 0 10px;
 
     .subtotal-container {
       .sub-div {
@@ -41,6 +41,29 @@
     .customer-info {
       margin-top: 20px;
 
+      .delivery-address {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: first baseline;
+        
+        .edit-delivery-address {
+          // height: 100%;
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          gap: 4px;
+          text-decoration: underline;
+
+          svg {
+            // height: 100%;
+
+            width: auto;
+            color: black;
+            cursor: pointer;
+          }
+        }
+      }
       .customer-info-header {
         display: flex;
         flex-direction: row;
@@ -53,16 +76,6 @@
           font-weight: bold;
         }
 
-        .edit-delivery-address {
-          height: 100%;
-
-          svg {
-            height: 100%;
-            width: auto;
-            color: black;
-            cursor: pointer;
-          }
-        }
       }
 
       .delivery-form {
@@ -182,8 +195,8 @@
       // gap: 5px;
       width: fit-content;
       // background: #f9f9f9;
-      border: 3px solid #6200ed;
-      border-radius: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       padding: 5px;
       margin-top: 1rem;
 
@@ -261,6 +274,7 @@
     margin-top: 20px;
 
     .submit-button {
+      width: 100%;
       padding: 12px 20px;
       background-color: #6200ed;
       color: white;

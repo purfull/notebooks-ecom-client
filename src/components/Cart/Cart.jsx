@@ -4,11 +4,12 @@ import "./Cart.scss";
 import { Card, Divider, Radio, Space } from "antd";
 // import Note from "../../assets/images/note.jpg";
 import { MdDelete } from "react-icons/md";
-import { MdEditLocationAlt } from "react-icons/md";
+import { MdEditLocationAlt, MdModeEdit  } from "react-icons/md";
 
 const Cart = () => {
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [quantity, setQuantity] = useState(0);
+  const [editAddress, setEditAddress] = useState(false);
   const [cartItems, setCartItems] = useState([]); // to store cart items
   const [errors, setErrors] = useState({});
 
@@ -85,6 +86,7 @@ const Cart = () => {
     }
 
     setErrors({});
+    setEditAddress(false)
     console.log("Delivery Info Submitted:", formData);
     alert("Delivery Information Submitted!");
   };
@@ -170,7 +172,7 @@ const Cart = () => {
         <div className="review-container">
           {/* Review Item */}
           <Card className="review-item">
-            <h3 className="summary-title">Review Item and Shipping</h3>
+            <h2 className="summary-title">Review Item and Shipping</h2>
             <Divider />
 
             {cartItems.length === 0 ? (
@@ -276,7 +278,7 @@ const Cart = () => {
 
         {/* Order Summary */}
         <Card className="summary">
-          <h2 className="summary-title">Order summary</h2>
+          <h2 className="">Order summary</h2>
           <Divider />
 
           {/* Subtotal*/}
@@ -291,11 +293,11 @@ const Cart = () => {
           <div className="customer-info">
             <div className="customer-info-header">
               <p className="summary-title">Delivery Address</p>
-              <span className="edit-delivery-address">
-                <MdEditLocationAlt />
-              </span>
+              {/* <a className="edit-delivery-address">
+                <MdModeEdit /> Edit
+              </a> */}
             </div>
-            <form
+            {editAddress ? (<form
               id="userForm"
               onSubmit={handleSubmit}
               className="delivery-form"
@@ -379,11 +381,22 @@ const Cart = () => {
                   Submit
                 </button>
               </div>
-            </form>
+            </form>)
+            : (
+              
+              <div className="delivery-address">
+                <p>Sanjay - Nagercoil 629002</p>
+              <a className="edit-delivery-address" onClick={() => setEditAddress(!editAddress)}>
+                <MdModeEdit /> Edit
+              </a>
+              </div>
+            )
+            
+            }
           </div>
 
-          <h4 className="payment-details">Payment Details</h4>
           <div className="payment-options">
+          <h4 className="payment-details">Payment Details</h4>
             <Radio.Group
               onChange={(e) => setPaymentMethod(e.target.value)}
               value={paymentMethod}
