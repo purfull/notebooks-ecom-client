@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.scss";
-import Navbar from "../Navbar/Navbar";
+// import Navbar from "../Navbar/Navbar";
 import { Card, Divider, Radio, Space } from "antd";
-import Note from "../../assets/images/note.jpg";
+// import Note from "../../assets/images/note.jpg";
 import { MdDelete } from "react-icons/md";
+import { MdEditLocationAlt } from "react-icons/md";
 
 const Cart = () => {
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
@@ -162,6 +163,7 @@ const Cart = () => {
     var pay = new window.Razorpay(options); //initialize
     pay.open(); //fn
   };
+
   return (
     <div className="cart-component">
       <div className="shopping-cart">
@@ -287,7 +289,12 @@ const Cart = () => {
 
           {/* Delivery Info Form */}
           <div className="customer-info">
-            <p className="summary-title">Delivery Address</p>
+            <div className="customer-info-header">
+              <p className="summary-title">Delivery Address</p>
+              <span className="edit-delivery-address">
+                <MdEditLocationAlt />
+              </span>
+            </div>
             <form
               id="userForm"
               onSubmit={handleSubmit}

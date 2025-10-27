@@ -85,7 +85,7 @@ const Login = () => {
           </div>
 
           <div className="form-footer">
-            <Link to="/password-reset" className="forgot-link">
+            <Link to="/forgetpassword" className="forgot-link">
               Forgot password?
             </Link>
           </div>
