@@ -41,6 +41,30 @@
     .customer-info {
       margin-top: 20px;
 
+      .customer-info-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 30px;
+
+        .summary-title {
+          // margin-bottom: 1rem;
+          font-size: 20px;
+          font-weight: bold;
+        }
+
+        .edit-delivery-address {
+          height: 100%;
+
+          svg {
+            height: 100%;
+            width: auto;
+            color: black;
+            cursor: pointer;
+          }
+        }
+      }
+
       .delivery-form {
         display: flex !important;
         flex-direction: column !important;
@@ -91,6 +115,7 @@
         padding: 10px 20px;
         border: none;
         color: white;
+        width: 100%;
       }
     }
   }
@@ -98,12 +123,6 @@
   .cart-title {
     margin-bottom: 1rem;
     font-size: 1.5rem;
-    font-weight: bold;
-  }
-
-  .summary-title {
-    // margin-bottom: 1rem;
-    font-size: 20px;
     font-weight: bold;
   }
 
