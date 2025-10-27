@@ -53,7 +53,10 @@ const Forget = () => {
         </div>
 
         <div className="forget-form-bottom-button">
-          <button className="next">Submit</button>
+          {/* <button className="next">Next</button> */}
+          <Link to="/verify-otp" className="next">
+            Next
+          </Link>
           <Link to="/login" className="back">
             Back
           </Link>

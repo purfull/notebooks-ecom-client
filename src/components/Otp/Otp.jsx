@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import "./Otp.scss";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 const Otp = () => {
   const [otp, setOtp] = useState("");
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // get query param
+  const type = searchParams.get("type");
 
   const handleOtpChange = (e) => {
-    const value = e.target.value.replace(/\D/g, ""); // remove non-digits
+    const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 6) {
       setOtp(value);
     }
@@ -20,7 +25,19 @@ const Otp = () => {
       return;
     }
 
-    console.log("OTP submitted");
+    //fake condition
+    if (otp === "123456") {
+      console.log("OTP verified successfully");
+
+      
+      if (type === "register") {
+        navigate("/register?step=2");
+      } else if (type === "forget") {
+        navigate("/forgetpassword");
+      } else {
+        alert("OTP verified successfully!");
+      }
+    }
   };
 
   return (
@@ -28,7 +45,11 @@ const Otp = () => {
       <form className="otp-form" onSubmit={handleSubmit}>
         <h3 className="otp-header">Verify your Password</h3>
         <p className="otp-info">
-          We’ll send a verification code to the entered email.
+          {type === "register"
+            ? "We’ve sent a verification code to your email for registration."
+            : type === "forget"
+            ? "We’ve sent a verification code to your email for password reset."
+            : "We’ve sent a verification code to your email."}
         </p>
 
         <div className="otp-form-group">
@@ -52,7 +73,7 @@ const Otp = () => {
         </div>
 
         <div className="otp-form-bottom-button">
-          <button className="next">Submit</button>
+          {/* <button className="next">Submit</button> */}
           <Link to="/login" className="back">
             Back
           </Link>
