@@ -33,7 +33,7 @@ const Register = () => {
     country: "",
     address: "",
     zip_code: "",
-    isB2B: 1
+    isB2B: false
   });
 
   const handleChange = (e) => {
@@ -116,7 +116,6 @@ const Register = () => {
   };
 
 
-
   return (
     <div className="register-wrapper">
       <div className="register-card">
@@ -173,12 +172,13 @@ const Register = () => {
                     value="yes"
                     checked={formData.orderchoice === "yes"}
                     onChange={(e) =>
-                      setFormData({ ...formData, orderchoice: e.target.value })
+                      setFormData({ ...formData, orderchoice: e.target.value ,isB2B:true })
                     }
                     required
                   />
                   Yes
                 </label>
+           
 
                 <label>
                   <input
@@ -187,12 +187,13 @@ const Register = () => {
                     value="no"
                     checked={formData.orderchoice === "no"}
                     onChange={(e) =>
-                      setFormData({ ...formData, orderchoice: e.target.value })
+                      setFormData({ ...formData, orderchoice: e.target.value ,isB2B:false })
                     }
                     required
                   />
                   No
                 </label>
+            
 
               </div>
             </div>
