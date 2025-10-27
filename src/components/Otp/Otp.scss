@@ -1,10 +1,10 @@
-.forget-container {
+.otp-container {
   padding: 3% 20px;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  .forget-form {
+  .otp-form {
     background-color: white;
     padding: 40px 50px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
@@ -14,14 +14,14 @@
     text-align: center;
     border-radius: 14px;
 
-    .forget-header {
+    .otp-header {
       margin-bottom: 1rem;
     }
-    // .forget-info {
-    //   font-size: 14px;
-    //   color: grey;
-    //   margin-bottom: 15px;
-    // }
+    .otp-info {
+      font-size: 14px;
+      color: grey;
+      margin-bottom: 15px;
+    }
 
     .error-message {
       // background-color: rgba(255, 0, 0, 0.05);
@@ -36,50 +36,51 @@
       // animation: fadeIn 0.3s ease;
     }
 
-    .forget-form-group {
+    .otp-form-group {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 10px;
 
-      .forget-form-label {
+      .otp-form-label {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
       }
-      .forget-form-input {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
 
-        &:focus {
-          border-color: #6200ed;
-          box-shadow: 0 0 0 2px rgba(98, 0, 237, 0.1);
-          outline: none;
+      .verify {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .verification-button {
+          background-color: #6200ed;
+          padding: 10px;
+          color: white;
+          font-size: 16px;
+          font-weight: 500;
+          border-radius: 16px;
+          border: none;
+          width: 40%;
+        }
+
+        .otp-form-input {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          width: 50%;
+
+          &:focus {
+            border-color: #6200ed;
+            box-shadow: 0 0 0 2px rgba(98, 0, 237, 0.1);
+            outline: none;
+          }
         }
       }
     }
 
-    .verify {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .verification-button {
-        background-color: #6200ed;
-        padding: 10px;
-        color: white;
-        font-size: 16px;
-        font-weight: 500;
-        border-radius: 16px;
-        border: none;
-        width: 40%;
-        margin-bottom: 10px;
-      }
-    }
-
-    .forget-form-bottom-button {
-      margin-top: 15px;
+    .otp-form-bottom-button {
+      margin-top: 20px;
       display: flex;
       flex-direction: row;
       justify-content: space-around;
@@ -95,6 +96,12 @@
         border: none;
         width: 30%;
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .otp-form {
+      padding: 30px;
     }
   }
 }

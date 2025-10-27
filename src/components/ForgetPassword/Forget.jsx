@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Forget.scss";
 
-
 const Forget = () => {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+
+  //email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!email) {
+      setError("Email is required!");
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address!");
+      return;
+    }
+
+    setError("");
+    console.log("Valid email:", email);
+  };
+
   return (
     <div className="forget-container">
-      <form className="forget-form">
-        <h3 className="forget-header">Reset your Password</h3>
-        <p className="forget-info">
-          We’ll send a verification code to this email if it matches an existing
-          LinkedIn account.
-        </p>
+      <form className="forget-form" onSubmit={handleSubmit}>
+        <h3 className="forget-header">Forget Password</h3>
+
+        {error && <p className="error-message">{error}</p>}
 
         <div className="forget-form-group">
           <label htmlFor="email" className="forget-form-label">
@@ -21,56 +41,15 @@ const Forget = () => {
             className="forget-form-input"
             type="email"
             id="email"
+            value={email}
             placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
 
         <div className="verify">
           <button className="verification-button">Sent OTP</button>
-        </div>
-
-        <div className="forget-form-group">
-          <label htmlFor="otp" className="forget-form-label">
-            Otp verify
-          </label>
-          <input
-            className="forget-form-input"
-            type="text"
-            id="otp"
-            placeholder="Enter your Otp sent in mail"
-            required
-          />
-        </div>
-
-        <div className="verify">
-          <button className="verification-button">Verify OTP</button>
-        </div>
-
-        <div className="forget-form-group">
-          <label htmlFor="new-password" className="forget-form-label">
-            New Password
-          </label>
-          <input
-            className="forget-form-input"
-            type="password"
-            id="new-password"
-            placeholder="Enter your New Password"
-            required
-          />
-        </div>
-
-        <div className="forget-form-group">
-          <label htmlFor="confirm-password" className="forget-form-label">
-            Confirm Password
-          </label>
-          <input
-            className="forget-form-input"
-            type="password"
-            id="confirm-password"
-            placeholder="Confirm your New Password"
-            required
-          />
         </div>
 
         <div className="forget-form-bottom-button">
