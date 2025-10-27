@@ -68,6 +68,33 @@ const Detail = () => {
   //directing to checkout page
   const navigate = useNavigate();
 
+  //adding items to cart
+  const handleAddingToCart = () => {
+    if (!productData) return;
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const itemIndex = existingCart.findIndex(
+      (item) => item.id === productData.id
+    );
+
+    if (itemIndex > -1) {
+      // Increase quantity if item already exists
+      existingCart[itemIndex].quantity += quantity;
+    } else {
+      existingCart.push({
+        id: productData.id,
+        name: productData.title,
+        price: productData.price,
+        image: productData.galleryImages[0], // main image
+        quantity: quantity,
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    alert(`${productData.title} added to cart!`);
+  };
+
   return (
     <div className="productdetail-component" ref={containerRef}>
       <div className="product-detail-page">
@@ -345,7 +372,9 @@ const Detail = () => {
                 >
                   Buy Now
                 </Button>
-                <Button className="add-cart">Add to Cart</Button>
+                <Button className="add-cart" onClick={handleAddingToCart}>
+                  Add to Cart
+                </Button>
               </div>
             </div>
 
