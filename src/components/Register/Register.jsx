@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 // import { GoogleLogin } from "@react-oauth/google";
 import "./Register.scss";
 import { ClipLoader, PulseLoader } from "react-spinners";
 
 const Register = () => {
+  const [searchParams] = useSearchParams();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   //err message To display
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const stepFromQuery = searchParams.get("step");
+    if (stepFromQuery === "2") {
+      setStep(2);
+    }
+  }, [searchParams]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,10 +50,10 @@ const Register = () => {
       );
       return;
     }
-    setStep(2);
-  };
 
-  const navigate = useNavigate();
+    navigate("/verify-otp?type=register");
+    // setStep(2);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,10 +71,10 @@ const Register = () => {
       setError(response.message);
       return;
     }
+
+    //if success
     navigate("/");
   };
-
-  // };
 
   return (
     <div className="register-wrapper">
