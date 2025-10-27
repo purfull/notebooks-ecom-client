@@ -7,7 +7,7 @@ import "./navBar.scss";
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   //  set this in redux
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const [showPreview, setShowPreview] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
