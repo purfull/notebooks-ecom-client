@@ -16,6 +16,8 @@ import Detail from "./components/ProductDetail/ProductDetail";
 import store from "./store/store";
 import { Provider } from "react-redux";
 import Forget from "./components/ForgetPassword/Forget";
+import Otp from "./components/Otp/Otp";
+import Newpassword from "./components/NewPassword/Newpassword";
 
 function App() {
   const [navHeight, setNavHeight] = useState(0);
@@ -33,8 +35,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/forgetpassword" element={<Forget />} />
+          <Route path="/verify-otp" element={<Otp />} />
+          <Route path="/new-password" element={<Newpassword />} />
           <Route path="/product-detail/:id" element={<Detail />} />
-          {/* <Route path="/product-detail/:id" element={<ProductDetail />} /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/ordertracking" element={<Tracking />} />
           <Route path="/userprofile" element={<UserProfile />} />
