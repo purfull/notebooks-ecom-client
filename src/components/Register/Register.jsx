@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 // import { GoogleLogin } from "@react-oauth/google";
 import "./Register.scss";
 import { ClipLoader, PulseLoader } from "react-spinners";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCustomers } from "../../store/slice/customerSlice";
 
 const Register = () => {
+  const [searchParams] = useSearchParams();
 
   //selectors 
   const customerSelector = useSelector((state) => state.customer);
@@ -19,6 +20,13 @@ const Register = () => {
 
   //err message To display
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const stepFromQuery = searchParams.get("step");
+    if (stepFromQuery === "2") {
+      setStep(2);
+    }
+  }, [searchParams]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -57,7 +65,9 @@ const Register = () => {
       );
       return;
     }
-    setStep(2);
+
+    navigate("/verify-otp?type=register");
+    // setStep(2);
   };
 
   //navigate property
@@ -112,9 +122,10 @@ const Register = () => {
       setError(response.message);
       return;
     }
+
+    //if success
     navigate("/");
   };
-
 
   return (
     <div className="register-wrapper">

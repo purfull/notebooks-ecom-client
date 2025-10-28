@@ -18,28 +18,12 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    //password validation 8 character needed
-    // const passwordRegex =
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!email) {
+      alert("Please enter your email");
+      return;
+    }
 
-    // if (!passwordRegex.test(formData.password)) {
-    //   alert(
-    //     "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
-    //   );
-    //   return;
-    // }
-    // try {
-    //   const result = await dispatch(createlogin(formData)).unwrap();
-    //   if (result.success) {
-    //     alert("Login successfully!");
-    //     navigate("/feed");
-    //   } else {
-    //     alert("Email or password is incorrect!");
-    //   }
-    // } catch (err) {
-    //   alert("Login failed. Please check your credentials!");
-    //   console.error(err);
-    // }
+    navigate("/verify-otp?type=forget");
   };
 
   return (
@@ -85,7 +69,7 @@ const Login = () => {
           </div>
 
           <div className="form-footer">
-            <Link to="/password-reset" className="forgot-link">
+            <Link to="/forgetpassword?type=forget" className="forgot-link">
               Forgot password?
             </Link>
           </div>
