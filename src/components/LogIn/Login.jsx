@@ -5,9 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 // import { createlogin } from "../../store/slice/registerSlice";
 import "./Login.scss";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   //   const dispatch = useDispatch();
   //   const navigate = useNavigate();
 
@@ -58,14 +61,23 @@ const Login = () => {
 
           <div className="form-group">
             <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            {/* <div className="password-wrapper"> */}
+              <input
+                className="login-password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              {/* <span
+                className="toggle-eye-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span> */}
+            {/* </div> */}
           </div>
 
           <div className="form-footer">
