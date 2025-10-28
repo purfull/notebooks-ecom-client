@@ -1,7 +1,52 @@
-import React from "react";
+import {React,useState} from "react";
 import { Form, Input, Button } from "antd";
 import "./UserProfile.scss";
+import { useDispatch, useSelector } from "react-redux";
+
+
 const UserProfile = () => {
+  
+  const dispatch = useDispatch ();
+  const [formData, setFormData] = useState({
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    country: "",
+    zip_code: "",
+
+  })
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const Updatesumbit = async (e) => {
+    try {
+      const payload = {
+        "id": formData.id,
+        "name": formData.name,
+        "email": formData.email,
+        "phone": formData.phone,
+        "Address": formData.address,
+        "country": formData.country,
+        "address": formData.address,
+        "zip_code": formData.zip_code
+
+      }
+      console.log(payload, "jiiiiiiiiiiiiiiiiiiii");
+      console.log("hiiiiiiiiiiiiiiii");
+
+      await dispatch(updatecustomers(payload)).unwrap();
+    } catch (err) {
+
+    }
+  }
+
   return (
     <div className="user-wrapper">
       <div className="account-header">
