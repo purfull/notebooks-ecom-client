@@ -16,6 +16,7 @@ export const createCustomers = createAsyncThunk("register/create-register", asyn
 }
 );
 
+
 //updated customers
 export const updatecustomers = createAsyncThunk("customer/update-customer", async (id,formData) => {
   const response = await axios.put("http://localhost:5500/customer/update-customer",
@@ -28,7 +29,16 @@ export const updatecustomers = createAsyncThunk("customer/update-customer", asyn
   return response.data
 });
 
+//login customers
 
+export const logincustomer = createAsyncThunk("customer/login" , async () => {
+      const responce = await axios.post("",formdata ,{
+        headers:{
+          "Content-Type" :"application/json"
+        }
+      })
+      return responce.data
+})
 
 const custoemrSlice = createSlice({
   initialState: {
@@ -73,11 +83,32 @@ const custoemrSlice = createSlice({
     });
     builder.addCase(updatecustomers.rejected, (state, action) => {
       state.isLoading = true;
-      state.isMessage = " updated customer Data state is pending";
+      state.isMessage = " updated customer Data state is rejected";
+
+    });
+
+  },
+    extraReducers: (builder) => {
+
+    builder.addCase(logincustomer.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = "Data login successfully";
+      state.customersData = action.payload
+    });
+
+    builder.addCase(logincustomer.pending, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = "login data updated  is pending";
+
+    });
+    builder.addCase(logincustomer.rejected, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = " logined customer Data  is rejected";
 
     });
 
   }
+
 
 
 })
