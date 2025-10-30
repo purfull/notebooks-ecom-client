@@ -32,8 +32,8 @@ export const updatecustomers = createAsyncThunk("customer/update-customer", asyn
 
 //login customers
 
-export const logincustomer = createAsyncThunk("customer/login", async () => {
-  const responce = await axios.post("", formdata, {
+export const logincustomer = createAsyncThunk("customer/login", async ({ email, password, googleToken }) => {
+  const responce = await axios.post("customer/login", { email, password, googleToken }, {
     headers: {
       "Content-Type": "application/json"
     }

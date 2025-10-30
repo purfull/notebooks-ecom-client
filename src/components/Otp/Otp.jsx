@@ -27,44 +27,43 @@ const Otp = () => {
     }
   };
 
-const verifysumbit = async (e) => {
-  e.preventDefault();
+  const verifysumbit = async (e) => {
+    e.preventDefault();
 
-  if (otp.length !== 6) {
-    alert("Please enter a valid 6-digit OTP!");
-    return;
-  }
+    if (otp.length !== 6) {
+      alert("Please enter a valid 6-digit OTP!");
+      return;
+    }
 
-  try {
-    // store the response returned from the thunk
-    const response = await dispatch(
-      verifyOtp({ otp:otp, type:type, identifier:identifier ,})
-    ).unwrap();
+    try {
+      // store the response returned from the thunk
+      const response = await dispatch(
+        verifyOtp({ otp: otp, type: type, identifier: identifier, })
+      ).unwrap();
 
-    console.log("OTP verify response:", response);
+      console.log("OTP verify response:", response);
 
-    if (response.success) {
-      // ✅ save token locally
-      localStorage.setItem("resetToken", response.resetToken);
+      if (response.success) {
+        // ✅ save token locally
+        localStorage.setItem("resetToken", response.resetToken);
+        alert("OTP verified successfully!");
 
-      alert("OTP verified successfully!");
-        
-      // ✅ navigate according to type
-      if (type === "register") {
-        navigate("/register?step=2");
-      } else if (type === "forget") {
-        navigate("/forgetpassword");
+        // ✅ navigate according to type
+        if (type === "register") {
+          navigate("/register?step=2");
+        } else if (type === "forget") {
+          navigate("/forgetpassword");
+        } else {
+          navigate("/");
+        }
       } else {
-        navigate("/");
+        alert("OTP verification failed!");
       }
-    } else {
+    } catch (err) {
+      console.error("Verification failed:", err);
       alert("OTP verification failed!");
     }
-  } catch (err) {
-    console.error("Verification failed:", err);
-    alert("OTP verification failed!");
-  }
-};
+  };
 
 
   return (

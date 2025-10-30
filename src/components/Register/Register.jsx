@@ -10,13 +10,13 @@ import { saveRegisterData } from "../../store/slice/customerSlice";
 
 const Register = () => {
 
-const customerdataSelector = useSelector((state) => state.customer.formData);
+  const customerdataSelector = useSelector((state) => state.customer.formData);
 
-useEffect(() => {
-  if (customerdataSelector && Object.keys(customerdataSelector).length > 0) {
-    setFormData((prev) => ({ ...prev, ...customerdataSelector }));
-  }
-}, [customerdataSelector]);
+  useEffect(() => {
+    if (customerdataSelector && Object.keys(customerdataSelector).length > 0) {
+      setFormData((prev) => ({ ...prev, ...customerdataSelector }));
+    }
+  }, [customerdataSelector]);
 
 
 
@@ -71,12 +71,11 @@ useEffect(() => {
     });
   };
 
-  //continue for otp page 
+  //continue for otp page and validations
   const handleContinue = async (e) => {
     e.preventDefault();
 
     try {
-      //password validation
       const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -100,16 +99,19 @@ useEffect(() => {
     // setStep(2);
   };
 
-
   //navigate property
   const navigate = useNavigate();
 
-
   //onlick for create  customer in db 
-
   const createcustomerSumbit = async (e) => {
     e.preventDefault();
+
+    //token set to local using get
     const resetToken = localStorage.getItem("resetToken");
+    const accestoken = localStorage.getItem("accessToken");
+
+    console.log({ accestoken: accestoken, resttoken: resetToken },);
+
     if (!resetToken) {
       alert("Please verify OTP before completing registration.");
       return;
@@ -130,16 +132,19 @@ useEffect(() => {
         "isB2B": true,
         "businessName": formData.orgName,
         "role": formData.position,
-        "isb2b": formData.isB2B,
-        resetToken
+        // "isb2b": formData.isB2B,
+        "otpToken": resetToken,
 
       }
-      await dispatch(createCustomers(payload)).unwrap();
+      const response = await dispatch(createCustomers(payload)).unwrap();
+      //save accestoke at local storage
+      if (response && response.accessToken) {
+        localStorage.setItem("accessToken", response.accessToken);
+      }
       alert("welcome to our book store")
-      // clear token after successful registration
+
       localStorage.removeItem("resetToken");
       navigate("/")
-      console.log(payload, "hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
     } catch (err) {
       console.error("Registration error:", error);
     }
