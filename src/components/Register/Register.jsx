@@ -144,7 +144,7 @@ const Register = () => {
       alert("welcome to our book store")
 
       localStorage.removeItem("resetToken");
-      navigate("/")
+      navigate("/login")
     } catch (err) {
       console.error("Registration error:", error);
     }
