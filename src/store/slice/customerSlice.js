@@ -9,6 +9,7 @@ export const createCustomers = createAsyncThunk("register/create-register", asyn
     {
       headers: {
         "Content-Type": "application/json",
+
       },
     }
   );
@@ -18,40 +19,62 @@ export const createCustomers = createAsyncThunk("register/create-register", asyn
 
 
 //updated customers
-export const updatecustomers = createAsyncThunk("customer/update-customer", async (id,formData) => {
+export const updatecustomers = createAsyncThunk("customer/update-customer", async (id, formData) => {
   const response = await axios.put("http://localhost:5500/customer/update-customer",
     formData,
     {
-    headers: {
-      "content-type": "application/json"
-    }
-  });
+      headers: {
+        "content-type": "application/json"
+      }
+    });
   return response.data
 });
 
 //login customers
 
-export const logincustomer = createAsyncThunk("customer/login" , async () => {
-      const responce = await axios.post("",formdata ,{
-        headers:{
-          "Content-Type" :"application/json"
-        }
-      })
-      return responce.data
+export const logincustomer = createAsyncThunk("customer/login", async () => {
+  const responce = await axios.post("", formdata, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  return responce.data
 })
 
-const custoemrSlice = createSlice({
+const customerSlice = createSlice({
   initialState: {
     isLoading: false,
     isMessage: null,
     customersData: [],
-  },
-  name: "customer",
-  reducers: {
-    add: () => {
+    formData: {
+      name: "",
+      orderchoice: "",
+      email: "",
+      password: "",
+      orgName: "",
+      position: "",
+      phone: "",
+      state: "",
+      city: "",
+      country: "",
+      address: "",
+      zip_code: "",
+      isB2B: false,
 
     }
   },
+  name: "customer",
+
+  reducers: {
+    saveRegisterData: (state, action) => {
+      state.formData = { ...state.formData, ...action.payload };
+    },
+    clearRegisterData: (state) => {
+      state.formData = {};
+    }
+  },
+
+
   extraReducers: (builder) => {
     builder.addCase(createCustomers.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -88,7 +111,7 @@ const custoemrSlice = createSlice({
     });
 
   },
-    extraReducers: (builder) => {
+  extraReducers: (builder) => {
 
     builder.addCase(logincustomer.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -107,10 +130,11 @@ const custoemrSlice = createSlice({
 
     });
 
-  }
+  },
 
 
 
 })
 
-export default custoemrSlice.reducer
+export default customerSlice.reducer
+export const { saveRegisterData, clearRegisterData } = customerSlice.actions;

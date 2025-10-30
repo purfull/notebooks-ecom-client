@@ -5,12 +5,30 @@ import "./Register.scss";
 import { ClipLoader, PulseLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { createCustomers } from "../../store/slice/customerSlice";
+import { sendotp } from "../../store/slice/otpslice";
+import { saveRegisterData } from "../../store/slice/customerSlice";
 
 const Register = () => {
+
+const customerdataSelector = useSelector((state) => state.customer.formData);
+
+useEffect(() => {
+  if (customerdataSelector && Object.keys(customerdataSelector).length > 0) {
+    setFormData((prev) => ({ ...prev, ...customerdataSelector }));
+  }
+}, [customerdataSelector]);
+
+
+
   const [searchParams] = useSearchParams();
 
   //selectors 
   const customerSelector = useSelector((state) => state.customer);
+
+
+  //getstypes 
+  const type = searchParams.get("type");
+  const identifier = searchParams.get("identifier")
 
   //dispatch
   const dispatch = useDispatch();
@@ -28,6 +46,7 @@ const Register = () => {
     }
   }, [searchParams]);
 
+
   const [formData, setFormData] = useState({
     name: "",
     orderchoice: "",
@@ -41,7 +60,8 @@ const Register = () => {
     country: "",
     address: "",
     zip_code: "",
-    isB2B: false
+    isB2B: false,
+
   });
 
   const handleChange = (e) => {
@@ -51,24 +71,35 @@ const Register = () => {
     });
   };
 
-
-  const handleContinue = (e) => {
+  //continue for otp page 
+  const handleContinue = async (e) => {
     e.preventDefault();
 
-    //password validation 8 character needed
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
+    try {
+      //password validation
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (!passwordRegex.test(formData.password)) {
-      alert(
-        "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
-      );
+      if (!passwordRegex.test(formData.password)) {
+        alert(
+          "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
+        );
+      }
+      await dispatch(sendotp({ type: "register", identifier: formData.email })).unwrap();
+      dispatch(saveRegisterData(formData));
+
+      alert("otp sended successfully");
+      navigate(`/verify-otp?type=register&identifier=${formData.email}`);
+
       return;
-    }
 
-    navigate("/verify-otp?type=register");
+    } catch (err) {
+      console.log(err, "err");
+
+    }
     // setStep(2);
   };
+
 
   //navigate property
   const navigate = useNavigate();
@@ -78,6 +109,12 @@ const Register = () => {
 
   const createcustomerSumbit = async (e) => {
     e.preventDefault();
+    const resetToken = localStorage.getItem("resetToken");
+    if (!resetToken) {
+      alert("Please verify OTP before completing registration.");
+      return;
+    }
+
     try {
       const payload = {
         "userName": formData.name,
@@ -93,14 +130,18 @@ const Register = () => {
         "isB2B": true,
         "businessName": formData.orgName,
         "role": formData.position,
-        "isb2b": formData.isB2B
+        "isb2b": formData.isB2B,
+        resetToken
+
       }
-      alert("welcome to our book store")
       await dispatch(createCustomers(payload)).unwrap();
+      alert("welcome to our book store")
+      // clear token after successful registration
+      localStorage.removeItem("resetToken");
       navigate("/")
       console.log(payload, "hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
     } catch (err) {
-      console.log("fix your Bug your corrections ")
+      console.error("Registration error:", error);
     }
   }
 
@@ -183,13 +224,13 @@ const Register = () => {
                     value="yes"
                     checked={formData.orderchoice === "yes"}
                     onChange={(e) =>
-                      setFormData({ ...formData, orderchoice: e.target.value ,isB2B:true })
+                      setFormData({ ...formData, orderchoice: e.target.value, isB2B: true })
                     }
                     required
                   />
                   Yes
                 </label>
-           
+
 
                 <label>
                   <input
@@ -198,13 +239,13 @@ const Register = () => {
                     value="no"
                     checked={formData.orderchoice === "no"}
                     onChange={(e) =>
-                      setFormData({ ...formData, orderchoice: e.target.value ,isB2B:false })
+                      setFormData({ ...formData, orderchoice: e.target.value, isB2B: false })
                     }
                     required
                   />
                   No
                 </label>
-            
+
 
               </div>
             </div>

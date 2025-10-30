@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-export const sendotp = createAsyncThunk("otp/send-otp", async (payload) => {
+export const sendotp = createAsyncThunk("otp/send-otp", async ({ type, identifier }) => {
 
     const responce = await axios.post("http://localhost:5500/otp/send",
-        payload,
+        { type, identifier },
         {
             headers: {
                 "content-type": "application/json"
@@ -15,9 +15,9 @@ export const sendotp = createAsyncThunk("otp/send-otp", async (payload) => {
     return responce.data
 })
 
-export const verifyOtp = createAsyncThunk("otp/verifyOtp", async ({ otp,}, { rejectWithValue }) => {
+export const verifyOtp = createAsyncThunk("otp/verifyOtp", async ({ otp, type, identifier }, { rejectWithValue }) => {
     try {
-        const response = await axios.post("http://localhost:5500/otp/verify", { otp, });
+        const response = await axios.post("http://localhost:5500/otp/verify", { otp, type, identifier });
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response?.data || { message: error.message });
