@@ -1,7 +1,55 @@
-import React from "react";
+import { React, useState } from "react";
 import { Form, Input, Button } from "antd";
 import "./UserProfile.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { updatecustomers } from "../../store/slice/customerSlice";
+
 const UserProfile = () => {
+
+  const dispatch = useDispatch();
+
+  const [formData, setFormData] = useState({
+    // id: "",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    country: "",
+    zip_code: "",
+
+  })
+
+  const token = localStorage.getItem("accessToken");
+  console.log(token, "accessToken");
+
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const Updatesumbit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        // "id": formData.id,
+        "name": formData.name,
+        "email": formData.email,
+        "phone": formData.phone,
+        "Address": formData.address,
+        "country": formData.country,
+        "address": formData.address,
+        "zip_code": formData.zip_code
+      }
+      await dispatch(updatecustomers(payload)).unwrap();
+      console.log(payload, "payload in userprofile");
+    } catch (err) {
+      console.log(err, "getting error to uodate proifle ");
+    }
+  }
+
   return (
     <div className="user-wrapper">
       <div className="account-header">
@@ -11,10 +59,10 @@ const UserProfile = () => {
         </p>
       </div>
 
-      <div className="profile-card">
+      <div className="profile-card" onSubmit={Updatesumbit}>
         <span className="profile-title">Profile</span>
 
-        <Form>
+        <Form >
           <div className="profile-inputs">
             <div className="form-group">
               <p className="input-label">Name *</p>
@@ -22,7 +70,7 @@ const UserProfile = () => {
                 name="name"
                 rules={[{ required: true, message: "Please input your name!" }]}
               >
-                <Input placeholder="Name" className="form-input" />
+                <Input placeholder="Name" className="form-input" onChange={handleChange} />
               </Form.Item>
             </div>
 
@@ -34,7 +82,7 @@ const UserProfile = () => {
                   { required: true, message: "Please input your email!" },
                 ]}
               >
-                <Input placeholder="Email" className="form-input" />
+                <Input placeholder="Email" className="form-input" onChange={handleChange} />
               </Form.Item>
             </div>
 
@@ -49,7 +97,7 @@ const UserProfile = () => {
                   },
                 ]}
               >
-                <Input placeholder="Phone Number" className="form-input" />
+                <Input placeholder="Phone Number" className="form-input" onChange={handleChange} />
               </Form.Item>
             </div>
 
@@ -61,7 +109,7 @@ const UserProfile = () => {
                   { required: true, message: "Please input your address!" },
                 ]}
               >
-                <Input placeholder="Address" className="form-input" />
+                <Input placeholder="Address" className="form-input" onChange={handleChange} />
               </Form.Item>
             </div>
 
@@ -73,7 +121,7 @@ const UserProfile = () => {
                   { required: true, message: "Please input your zip code!" },
                 ]}
               >
-                <Input placeholder="Zip Code" className="form-input" />
+                <Input placeholder="Zip Code" className="form-input" onChange={handleChange} />
               </Form.Item>
             </div>
 
@@ -85,13 +133,13 @@ const UserProfile = () => {
                   { required: true, message: "Please input your country!" },
                 ]}
               >
-                <Input placeholder="Country" className="form-input" />
+                <Input placeholder="Country" className="form-input" onChange={handleChange} />
               </Form.Item>
             </div>
 
             {/* Submit Button */}
             <div className="update-profile-button">
-              <Button className="primary-button" htmlType="submit">
+              <Button className="primary-button" htmlType="submit" onClick={Updatesumbit}>
                 Update Profile
               </Button>
             </div>

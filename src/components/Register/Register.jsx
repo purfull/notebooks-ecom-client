@@ -3,12 +3,38 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 // import { GoogleLogin } from "@react-oauth/google";
 import "./Register.scss";
 import { ClipLoader, PulseLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { createCustomers } from "../../store/slice/customerSlice";
+import { sendotp } from "../../store/slice/otpslice";
+import { saveRegisterData } from "../../store/slice/customerSlice";
 
 const Register = () => {
+
+  const customerdataSelector = useSelector((state) => state.customer.formData);
+
+  useEffect(() => {
+    if (customerdataSelector && Object.keys(customerdataSelector).length > 0) {
+      setFormData((prev) => ({ ...prev, ...customerdataSelector }));
+    }
+  }, [customerdataSelector]);
+
+
+
   const [searchParams] = useSearchParams();
+
+  //selectors 
+  const customerSelector = useSelector((state) => state.customer);
+
+
+  //getstypes 
+  const type = searchParams.get("type");
+  const identifier = searchParams.get("identifier")
+
+  //dispatch
+  const dispatch = useDispatch();
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   //err message To display
   const [error, setError] = useState("");
@@ -20,6 +46,7 @@ const Register = () => {
     }
   }, [searchParams]);
 
+
   const [formData, setFormData] = useState({
     name: "",
     orderchoice: "",
@@ -28,36 +55,106 @@ const Register = () => {
     orgName: "",
     position: "",
     phone: "",
+    state: "",
+    city: "",
+    country: "",
     address: "",
     zip_code: "",
-    country: "",
+    isB2B: false,
+
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
-  const handleContinue = (e) => {
+  //continue for otp page and validations
+  const handleContinue = async (e) => {
     e.preventDefault();
 
-    //password validation 8 character needed
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
+    try {
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (!passwordRegex.test(formData.password)) {
-      alert(
-        "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
-      );
+      if (!passwordRegex.test(formData.password)) {
+        alert(
+          "Password must be at least 8 characters long, include one uppercase, one lowercase, one number, and one special character."
+        );
+      }
+      await dispatch(sendotp({ type: "register", identifier: formData.email })).unwrap();
+      dispatch(saveRegisterData(formData));
+
+      alert("otp sended successfully");
+      navigate(`/verify-otp?type=register&identifier=${formData.email}`);
+
+      return;
+
+    } catch (err) {
+      console.log(err, "err");
+
+    }
+    // setStep(2);
+  };
+
+  //navigate property
+  const navigate = useNavigate();
+
+  //onlick for create  customer in db 
+  const createcustomerSumbit = async (e) => {
+    e.preventDefault();
+
+    //token set to local using get
+    const resetToken = localStorage.getItem("resetToken");
+    const accestoken = localStorage.getItem("accessToken");
+
+    console.log({ accestoken: accestoken, resttoken: resetToken },);
+
+    if (!resetToken) {
+      alert("Please verify OTP before completing registration.");
       return;
     }
 
-    navigate("/verify-otp?type=register");
-    // setStep(2);
-  };
+    try {
+      const payload = {
+        "userName": formData.name,
+        "name": formData.name,
+        "email": formData.email,
+        "phone": formData.phone,
+        "password": formData.password,
+        "address": formData.address,
+        "city": formData.city,
+        "state": formData.state,
+        "country": formData.country,
+        "postalCode": formData.zip_code,
+        "isB2B": true,
+        "businessName": formData.orgName,
+        "role": formData.position,
+        // "isb2b": formData.isB2B,
+        "otpToken": resetToken,
+
+      }
+      const response = await dispatch(createCustomers(payload)).unwrap();
+      //save accestoke at local storage
+      if (response && response.accessToken) {
+        localStorage.setItem("accessToken", response.accessToken);
+      }
+      alert("welcome to our book store")
+
+      localStorage.removeItem("resetToken");
+      navigate("/login");
+    } catch (err) {
+      console.error("Registration error:", error);
+    }
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     //loader
     setLoading(true);
 
@@ -132,12 +229,13 @@ const Register = () => {
                     value="yes"
                     checked={formData.orderchoice === "yes"}
                     onChange={(e) =>
-                      setFormData({ ...formData, orderchoice: e.target.value })
+                      setFormData({ ...formData, orderchoice: e.target.value, isB2B: true })
                     }
                     required
                   />
                   Yes
                 </label>
+
 
                 <label>
                   <input
@@ -146,12 +244,14 @@ const Register = () => {
                     value="no"
                     checked={formData.orderchoice === "no"}
                     onChange={(e) =>
-                      setFormData({ ...formData, orderchoice: e.target.value })
+                      setFormData({ ...formData, orderchoice: e.target.value, isB2B: false })
                     }
                     required
                   />
                   No
                 </label>
+
+
               </div>
             </div>
 
@@ -215,6 +315,31 @@ const Register = () => {
             </div>
 
             <div className="form-group">
+              <label>city</label>
+              <input
+                type="text"
+                name="city"
+                placeholder="Enter your city "
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+
+            <div className="form-group">
+              <label>State</label>
+              <input
+                type="text"
+                name="state"
+                placeholder="Enter your state "
+                value={formData.state}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
               <label>Zip-code</label>
               <input
                 type="text"
@@ -238,7 +363,7 @@ const Register = () => {
               />
             </div>
 
-            <button type="submit" className="submit-button" disabled={loading}>
+            <button type="submit" className="submit-button" disabled={loading} onClick={createcustomerSumbit} >
               {loading ? (
                 <PulseLoader
                   height="10"
@@ -248,6 +373,7 @@ const Register = () => {
                   ariaLabel="three-dots-loading"
                   visible={true}
                 />
+
               ) : (
                 "Submit"
               )}

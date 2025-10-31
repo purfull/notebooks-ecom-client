@@ -2,18 +2,32 @@ import React, { useState } from "react";
 import "./Newpassword.scss";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { resetpassword } from "../../store/slice/customerSlice";
 
 const Newpassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
+  // dispatch
+
+  const dispatch = useDispatch();
+
+  //payload value getting from another modules 
+  const email = searchParams.get("email");
+  const identifier = searchParams.get("identifier");
+  const resetToken = localStorage.getItem("resetToken");
+  
   //validation
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  const handleSubmit = (e) => {
+  //sumbit and dispatch for reset password
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
@@ -21,21 +35,30 @@ const Newpassword = () => {
       return;
     }
 
-    if (newPassword.length !== 8) {
-      setError("Password must be exactly 8 characters long!");
+    if (newPassword.length !== 10) {
+      setError("Password must be exactly 10 characters long!");
       return;
     }
 
     if (!passwordRegex.test(newPassword)) {
       setError(
-        "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character."
+        "Password must be at least 10 characters long, include uppercase, lowercase, number, and special character."
       );
       return;
     }
-
-    setError("cvb");
-    console.log("Password reset successfully:", newPassword);
-    navigate("/login");
+    // setError("cvb");
+    try {
+      const payload = {
+        "email": identifier,
+        "newPassword": newPassword,
+        "otpToken": resetToken,
+      }
+      console.log("FINAL PAYLOADDDDDDDDDDDDDD =>", payload);
+      await dispatch(resetpassword(payload)).unwrap();
+      navigate("/login");
+    } catch (err) {
+      console.log("err", err);
+    }
   };
 
   return (
@@ -55,7 +78,7 @@ const Newpassword = () => {
             id="new-password"
             placeholder="Enter your New Password"
             value={newPassword}
-            maxLength={8}
+            maxLength={10}
             onChange={(e) => setNewPassword(e.target.value)}
             required
           />
@@ -71,7 +94,7 @@ const Newpassword = () => {
             id="confirm-password"
             placeholder="Confirm your New Password"
             value={confirmPassword}
-            maxLength={8}
+            maxLength={10}
             onChange={(e) => {
               setConfirmPassword(e.target.value);
             }}
@@ -80,7 +103,7 @@ const Newpassword = () => {
         </div>
 
         <div className="new-password-form-bottom-button">
-          <button className="next">Submit</button>
+          <button className="next" onClick={handleSubmit}>Submit</button>
           <Link to="/login" className="back">
             Back
           </Link>

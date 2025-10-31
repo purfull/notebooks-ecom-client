@@ -2,14 +2,19 @@ import React, { useState } from "react";
 // import { GoogleLogin, googleLogout } from "@react-oauth/google";
 // import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import { logincustomer } from "../../store/slice/customerSlice";
+import { useDispatch } from "react-redux";
 // import { createlogin } from "../../store/slice/registerSlice";
 import "./Login.scss";
 
 const Login = () => {
+
   const [formData, setFormData] = useState({ email: "", password: "" });
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //getting accesstoken for login route 
+  const accestoken = localStorage.getItem("accessToken");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,13 +22,26 @@ const Login = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
-    if (!email) {
-      alert("Please enter your email");
-      return;
+    if (!formData.email) {
+      alert("Enter Your email properly")
     }
+    try {
+      const payload = {
+        "email": formData.email,
+        "password": formData.password,
+      }
 
-    navigate("/verify-otp?type=forget");
+      const response = await dispatch(logincustomer(payload)).unwrap();
+      if (response && response.accessToken) {
+        localStorage.setItem("accessToken", response.accessToken);
+      }
+      alert("login successfully")
+      navigate("/")
+
+    } catch (err) {
+      alert("Invaild creditenials");
+      navigate("/forgetpassword");
+    }
   };
 
   return (

@@ -1,51 +1,180 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { buildCreateSlice, createAsyncThunk,  } from "@reduxjs/toolkit";
+import { buildCreateSlice, createAsyncThunk, } from "@reduxjs/toolkit";
+import axios from "axios";
 
+//created customers
+export const createCustomers = createAsyncThunk("register/create-register", async (formData) => {
+  const response = await axios.post("http://localhost:5500/customer/create-customer",
+    formData,
+    {
+      headers: {
+        "Content-Type": "application/json",
 
-export const createCustomers = createAsyncThunk(
-    "register/create-register",
-    async (formData) => {
-        const response = await fetch("", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        });
-        const data = await response.json();
-        return data;
+      },
     }
+  );
+  return response.data;
+}
 );
 
-const custoemrSlice = createSlice({
-    initialState: {
-        isLoading: false,
-        isMessage: null,
-        customersData: [],
-    },
-    name: "customer",
 
-    reducers:{
-        add:()=>{
+//updated customers
+export const updatecustomers = createAsyncThunk("customer/update-customer", async ({id, formData, token}) => {
+  try {
+    const response = await axios.put("http://localhost:5500/customer/update-customer",
+      formData,
+      {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
 
         }
-    },
-    extraReducers: (builder) => {
-        builder.addCase(createCustomers.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isMessage = " customers Registered Data successfully";
-            state.customersData = action.payload;
-        });
-        builder.addCase(createCustomers.pending, (state, action) => {
-            state.isLoading = true;
-            state.isMessage = "customers Registering Data is pending";
-        });
-        builder.addCase(createCustomers.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isMessage = " customers Registering Data is failed";
-        });
-    },
+      });
+    return response.data
+  }
+  catch (error) {
+    console.error("Error updating user:", error.response?.data || error);
+    throw error;
+
+  }
+});
+
+
+//login customers
+
+export const logincustomer = createAsyncThunk("customer/login", async (formData) => {
+  const responce = await axios.post("http://localhost:5500/customer/login", formData, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  return responce.data
+})
+
+//reset password 
+export const resetpassword = createAsyncThunk("customer/reset-password", async (payload) => {
+  const responce = await axios.post("http://localhost:5500/customer/reset-password", payload, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+
+  })
+  return responce.data
 
 })
 
-export default custoemrSlice.reducer
+const customerSlice = createSlice({
+  initialState: {
+    isLoading: false,
+    isMessage: null,
+    customersData: [],
+    formData: {
+      name: "",
+      orderchoice: "",
+      email: "",
+      password: "",
+      orgName: "",
+      position: "",
+      phone: "",
+      state: "",
+      city: "",
+      country: "",
+      address: "",
+      zip_code: "",
+      isB2B: false,
+
+    }
+  },
+  name: "customer",
+
+  reducers: {
+    saveRegisterData: (state, action) => {
+      state.formData = { ...state.formData, ...action.payload };
+    },
+    clearRegisterData: (state) => {
+      state.formData = {};
+    }
+  },
+
+
+  extraReducers: (builder) => {
+    builder.addCase(createCustomers.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = " customers Registered Data successfully";
+      state.customersData = action.payload;
+    });
+    builder.addCase(createCustomers.pending, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = "customers Registering Data is pending";
+    });
+    builder.addCase(createCustomers.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = " customers Registering Data is failed";
+    });
+  },
+
+  extraReducers: (builder) => {
+
+    builder.addCase(updatecustomers.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = "customers updated Data successfully";
+      state.customersData = action.payload
+    });
+
+    builder.addCase(updatecustomers.pending, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = "customers updated Data is pending";
+
+    });
+    builder.addCase(updatecustomers.rejected, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = " updated customer Data state is rejected";
+
+    });
+
+  },
+  extraReducers: (builder) => {
+
+    builder.addCase(logincustomer.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = "Data login successfully";
+      state.customersData = action.payload
+    });
+
+    builder.addCase(logincustomer.pending, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = "login data updated  is pending";
+
+    });
+    builder.addCase(logincustomer.rejected, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = " logined customer Data  is rejected";
+
+    });
+
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(resetpassword.pending, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = "password reset is pending so loading "
+    })
+
+    builder.addCase(resetpassword.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = "password Reseted successfully";
+      state.customersData = action.payload
+    });
+    builder.addCase(resetpassword.rejected, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = "your password rested rejected ";
+
+    });
+  }
+
+
+
+})
+
+export default customerSlice.reducer
+export const { saveRegisterData, clearRegisterData } = customerSlice.actions;
