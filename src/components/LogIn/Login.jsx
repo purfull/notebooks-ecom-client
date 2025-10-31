@@ -30,6 +30,7 @@ const Login = () => {
         "email": formData.email,
         "password": formData.password,
       }
+
       const response = await dispatch(logincustomer(payload)).unwrap();
       if (response && response.accessToken) {
         localStorage.setItem("accessToken", response.accessToken);
@@ -39,7 +40,7 @@ const Login = () => {
 
     } catch (err) {
       alert("Invaild creditenials");
-      navigate("/verify-otp?type=forget");
+      navigate("/forgetpassword");
     }
   };
 

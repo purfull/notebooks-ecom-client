@@ -20,6 +20,8 @@ const Otp = () => {
   const type = searchParams.get("type");
   const identifier = searchParams.get("identifier");
 
+
+  //value chnages in input feilds
   const handleOtpChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 6) {
@@ -27,6 +29,8 @@ const Otp = () => {
     }
   };
 
+
+  //verify for otp regsiter and apsssword moudles
   const verifysumbit = async (e) => {
     e.preventDefault();
 
@@ -37,24 +41,18 @@ const Otp = () => {
 
     try {
       // store the response returned from the thunk
-      const response = await dispatch(
-        verifyOtp({ otp: otp, type: type, identifier: identifier, })
-      ).unwrap();
+      const response = await dispatch( verifyOtp({ otp: otp, type: type, identifier: identifier })).unwrap();
 
       console.log("OTP verify response:", response);
 
       if (response.success) {
-        // ✅ save token locally
+        //save token at local storge
         localStorage.setItem("resetToken", response.resetToken);
         alert("OTP verified successfully!");
-
-        // ✅ navigate according to type
         if (type === "register") {
           navigate("/register?step=2");
-        } else if (type === "forget") {
-          navigate("/forgetpassword");
-        } else {
-          navigate("/");
+        } else if (type === "reset-password") {
+          navigate(`/new-password?type=reset-password&identifier=${identifier}`);
         }
       } else {
         alert("OTP verification failed!");

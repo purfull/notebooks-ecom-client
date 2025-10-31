@@ -1,30 +1,45 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Forget.scss";
+import { sendotp } from "../../store/slice/otpslice";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 const Forget = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-
   //email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const handleSubmit = (e) => {
+//sumbitt for send otp forget password page 
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      if (!email) {
+        setError("Email is required!");
+        return;
+      }
 
-    if (!email) {
-      setError("Email is required!");
-      return;
+      if (!emailRegex.test(email)) {
+        setError("Please enter a valid email address!");
+        return;
+      }
+      const identifier = email;
+      await dispatch(sendotp({ type: "reset-password", identifier: identifier })).unwrap();
+      navigate(`/verify-otp?type=reset-password&identifier=${email}`);
+
+      alert("otp sended successfully");
+      console.log("Valid email:", email);
+      setError("");
+    } catch (err) {
+      console.log(err, "error");
     }
-
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address!");
-      return;
-    }
-
-    setError("");
-    console.log("Valid email:", email);
   };
+
 
   return (
     <div className="forget-container">

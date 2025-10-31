@@ -19,16 +19,26 @@ export const createCustomers = createAsyncThunk("register/create-register", asyn
 
 
 //updated customers
-export const updatecustomers = createAsyncThunk("customer/update-customer", async (id, formData) => {
-  const response = await axios.put("http://localhost:5500/customer/update-customer",
-    formData,
-    {
-      headers: {
-        "content-type": "application/json"
-      }
-    });
-  return response.data
+export const updatecustomers = createAsyncThunk("customer/update-customer", async ({id, formData, token}) => {
+  try {
+    const response = await axios.put("http://localhost:5500/customer/update-customer",
+      formData,
+      {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+
+        }
+      });
+    return response.data
+  }
+  catch (error) {
+    console.error("Error updating user:", error.response?.data || error);
+    throw error;
+
+  }
 });
+
 
 //login customers
 
@@ -39,6 +49,18 @@ export const logincustomer = createAsyncThunk("customer/login", async (formData)
     }
   })
   return responce.data
+})
+
+//reset password 
+export const resetpassword = createAsyncThunk("customer/reset-password", async (payload) => {
+  const responce = await axios.post("http://localhost:5500/customer/reset-password", payload, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+
+  })
+  return responce.data
+
 })
 
 const customerSlice = createSlice({
@@ -131,6 +153,24 @@ const customerSlice = createSlice({
     });
 
   },
+
+  extraReducers: (builder) => {
+    builder.addCase(resetpassword.pending, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = "password reset is pending so loading "
+    })
+
+    builder.addCase(resetpassword.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isMessage = "password Reseted successfully";
+      state.customersData = action.payload
+    });
+    builder.addCase(resetpassword.rejected, (state, action) => {
+      state.isLoading = true;
+      state.isMessage = "your password rested rejected ";
+
+    });
+  }
 
 
 
