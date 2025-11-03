@@ -16,10 +16,21 @@ import Return from "../../assets/icon/return-box.png";
 import Secure from "../../assets/icon/secure.png";
 import Ontime from "../../assets/icon/on-time.png";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addedtoCart } from "../../store/slice/cartSlice"
 gsap.registerPlugin(ScrollTrigger);
 
 const Detail = () => {
+
+  //diaptch 
+  const dispatch = useDispatch();
+
+  const token = localStorage.getItem("accessToken");
+  console.log(token, "productttttttttttttttttt");
+
+  //selectors 
+  const addcartselector = useSelector((state) => state.cart)
+
   const [productData, setProductData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -68,31 +79,45 @@ const Detail = () => {
   //directing to checkout page
   const navigate = useNavigate();
 
-  //adding items to cart
-  const handleAddingToCart = () => {
-    if (!productData) return;
+  //added to cart 
+  const handleAddingToCart = async (e) => {
+    e.preventDefault();
+    try {
+      if (!productData) throw new Error("Product data not available");
 
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const itemIndex = existingCart.findIndex(
-      (item) => item.id === productData.id
-    );
+      const itemIndex = existingCart.findIndex(
+        (item) => item.id === productData.id
+      );
 
-    if (itemIndex > -1) {
-      // Increase quantity if item already exists
-      existingCart[itemIndex].quantity += quantity;
-    } else {
-      existingCart.push({
-        id: productData.id,
-        name: productData.title,
-        price: productData.price,
-        image: productData.galleryImages[0], // main image
+      if (itemIndex > -1) {
+        // Increase quantity if item already exists
+        existingCart[itemIndex].quantity += quantity;
+      } else {
+        existingCart.push({
+          id: productData.id,
+          name: productData.title,
+          price: productData.price,
+          image: productData.galleryImages?.[0] || "", // safe optional chaining
+          quantity: quantity,
+        });
+      }
+      const productId = productData.id
+
+      await dispatch(addedtoCart({
+        productId: productId,
         quantity: quantity,
-      });
-    }
+      }));
 
-    localStorage.setItem("cart", JSON.stringify(existingCart));
-    alert(`${productData.title} added to cart!`);
+
+      localStorage.setItem("cart", JSON.stringify(existingCart));
+      localStorage.setItem(token)
+      alert(`${productData.title} added to cart!`);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Something went wrong while adding the item to the cart. Please try again.");
+    }
   };
 
   return (
@@ -108,9 +133,8 @@ const Detail = () => {
                       key={index}
                       src={img}
                       alt={`thumbnail-${index}`}
-                      className={`thumbnail ${
-                        index === selectedIndex ? "active" : ""
-                      }`}
+                      className={`thumbnail ${index === selectedIndex ? "active" : ""
+                        }`}
                       onClick={() => setSelectedIndex(index)}
                     />
                   ))}
@@ -202,9 +226,8 @@ const Detail = () => {
                       </span>
                     </div>
                     <div
-                      className={`offers-content ${
-                        showOffers ? "open" : "closed"
-                      }`}
+                      className={`offers-content ${showOffers ? "open" : "closed"
+                        }`}
                     >
                       <div className="offers-card">
                         <Card>Cashback</Card>
