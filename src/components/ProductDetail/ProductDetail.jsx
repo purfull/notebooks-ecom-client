@@ -26,7 +26,7 @@ const Detail = () => {
   const dispatch = useDispatch();
 
   const token = localStorage.getItem("accessToken");
-  console.log(token, "productttttttttttttttttt");
+  console.log(token, "product page token");
 
   //selectors 
   const addcartselector = useSelector((state) => state.cart)
@@ -79,7 +79,7 @@ const Detail = () => {
   //directing to checkout page
   const navigate = useNavigate();
 
-  //added to cart 
+  // added to cart 
   const handleAddingToCart = async (e) => {
     e.preventDefault();
     try {
@@ -105,20 +105,25 @@ const Detail = () => {
       }
       const productId = productData.id
 
-      await dispatch(addedtoCart({
+      const payload = {
         productId: productId,
         quantity: quantity,
-      }));
+        token: token
 
+      }
+      const responce = await dispatch(addedtoCart(payload));
 
       localStorage.setItem("cart", JSON.stringify(existingCart));
-      localStorage.setItem(token)
+      localStorage.setItem("token", token);
       alert(`${productData.title} added to cart!`);
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Something went wrong while adding the item to the cart. Please try again.");
     }
   };
+
+
+
 
   return (
     <div className="productdetail-component" ref={containerRef}>

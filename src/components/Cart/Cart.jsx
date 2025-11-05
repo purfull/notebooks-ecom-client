@@ -4,9 +4,24 @@ import "./Cart.scss";
 import { Card, Divider, Radio, Space } from "antd";
 // import Note from "../../assets/images/note.jpg";
 import { MdDelete } from "react-icons/md";
-import { MdEditLocationAlt, MdModeEdit  } from "react-icons/md";
-
+import { MdEditLocationAlt, MdModeEdit } from "react-icons/md";
+import { clearCart } from "../../store/slice/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 const Cart = () => {
+
+
+  //all be working but cartid is mussing 
+
+  const cartselector = useSelector((state) => state.cart)
+
+  const dispatch = useDispatch();
+
+
+
+  
+  const token = localStorage.getItem("accessToken");
+  console.log(token, "cart page token");
+
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [quantity, setQuantity] = useState(0);
   const [editAddress, setEditAddress] = useState(false);
@@ -117,6 +132,25 @@ const Cart = () => {
     0
   );
 
+  const idremovecart = cartItems.id
+  console.log(idremovecart,"form cartttttttttttttttttttttttttttttt");
+  
+  const removecartitem = async (e) => {
+    e.preventDefault();
+    try {
+      const responce = await dispatch(clearCart(idremovecart));
+      console.log("cart item removed successfully");
+            localStorage.setItem("token", token);
+
+
+    }
+    catch (err) {
+      console.log(err, "err");
+      alert("err to clear cart ")
+    }
+
+  }
+
   const handleSubmitPayment = (e) => {
     e.preventDefault();
 
@@ -202,7 +236,7 @@ const Cart = () => {
                           min="1"
                           max="10"
                           step="1"
-                          // readOnly
+                        // readOnly
                         />
                         <button
                           className="quantity-btn up"
@@ -214,9 +248,10 @@ const Cart = () => {
 
                       {/* dispatch delete cart in its onclick */}
 
-                      <div className="delete-icon">
+                      <div className="delete-icon"  >
                         <MdDelete
                           onClick={() => removeItem(item.id)}
+                          // onClick={removecartitem}
                           style={{
                             fontSize: "25px",
                             color: "black",
@@ -382,21 +417,21 @@ const Cart = () => {
                 </button>
               </div>
             </form>)
-            : (
-              
-              <div className="delivery-address">
-                <p>Sanjay - Nagercoil 629002</p>
-              <a className="edit-delivery-address" onClick={() => setEditAddress(!editAddress)}>
-                <MdModeEdit /> Edit
-              </a>
-              </div>
-            )
-            
+              : (
+
+                <div className="delivery-address">
+                  <p>Sanjay - Nagercoil 629002</p>
+                  <a className="edit-delivery-address" onClick={() => setEditAddress(!editAddress)}>
+                    <MdModeEdit /> Edit
+                  </a>
+                </div>
+              )
+
             }
           </div>
 
           <div className="payment-options">
-          <h4 className="payment-details">Payment Details</h4>
+            <h4 className="payment-details">Payment Details</h4>
             <Radio.Group
               onChange={(e) => setPaymentMethod(e.target.value)}
               value={paymentMethod}

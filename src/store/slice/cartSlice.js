@@ -1,6 +1,7 @@
 import create from "@ant-design/icons/lib/components/IconFont";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+// import tokens from "razorpay/dist/types/tokens";
 
 //get all cart items
 export const getallCartitems = createAsyncThunk("cart/getall-cart", async () => {
@@ -11,7 +12,7 @@ export const getallCartitems = createAsyncThunk("cart/getall-cart", async () => 
     });
     return response.data
 
-})
+});
 
 //get all cart id 
 
@@ -25,14 +26,14 @@ export const getCartusingid = createAsyncThunk("cart/get-using-id", async () => 
 })
 
 //added acrt 
-export const addedtoCart = createAsyncThunk("cart/add-to-cart", async ({ productId, quantity,token }) => {
+export const addedtoCart = createAsyncThunk("cart/add-to-cart", async ({ productId, quantity, token }) => {
 
     const response = await axios.post("http://localhost:5500/customer/cart/add-cart-item",
         { productId, quantity },
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                "authorization": `Bearer ${token}`,
 
             },
         })
@@ -41,11 +42,14 @@ export const addedtoCart = createAsyncThunk("cart/add-to-cart", async ({ product
 })
 
 //clear cart 
-export const clearCart = createAsyncThunk("cart/clear-cart", async () => {
-    const response = await axios.post("http://localhost:5500/cart/clear-cart/:id",
+export const clearCart = createAsyncThunk("cart/clear-cart", async (id, token) => {
+    const response = await axios.post("http://localhost:5500/customer/cart/clear-cart/:id",
+        id,
         {
             headers: {
                 "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`,
+
             },
         })
     return response.data
@@ -53,7 +57,7 @@ export const clearCart = createAsyncThunk("cart/clear-cart", async () => {
 })
 //update cart
 export const updateCart = createAsyncThunk("cart/update-cart", async () => {
-    const response = await axios.post("http://localhost:5500/cart/update-cart-item/:id",
+    const response = await axios.put("http://localhost:5500/customer/cart/update-cart-item/:id",
         {
             headers: {
                 "Content-Type": "application/json",
